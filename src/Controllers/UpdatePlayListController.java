@@ -1,8 +1,43 @@
 package Controllers;
 
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.input.KeyEvent;
+
 /**
  * In this scene the user can see the content of a Playlist and delete songs.
  * If the user want to add song he/she has to navigate to {@link AddSongToPlayListController}.
  */
 public class UpdatePlayListController {
+
+    @FXML
+    private Button deleteButton;
+    @FXML
+    private ListView songListViewList;
+
+    @FXML
+    public void handleAddSongToPlayList(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleDeleteSongFromPlayList(ActionEvent event) {
+    }
+
+    @FXML
+    public void navigateBack(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleSearch(KeyEvent keyEvent) {
+    }
+
+    @FXML
+    public void handleClearSearch(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleInputCompletion(ActionEvent event) {
+    }
 }

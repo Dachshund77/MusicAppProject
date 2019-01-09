@@ -11,22 +11,22 @@
    <left>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Playlists" />
+            <Button mnemonicParsing="false" onAction="#navigateToPlayLists" text="Playlists" />
          </children>
       </VBox>
    </left>
    <right>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" text="Songs" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#navigateToSongs" text="Songs" />
          </children>
       </VBox>
    </right>
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Song name artist etc" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="songInfoLabel" text="Song name artist etc" />
+            <ImageView fx:id="albumImage" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </VBox>
    </center>

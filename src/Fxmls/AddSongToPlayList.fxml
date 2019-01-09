@@ -28,11 +28,11 @@
                         <Label text="Artist" GridPane.columnIndex="1" />
                         <Label text="Album" GridPane.columnIndex="2" />
                         <Label text="Genre" GridPane.columnIndex="3" />
-                        <TextField GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <TextField GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Button mnemonicParsing="false" text="Clear" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <TextField onKeyTyped="#handleSearch" GridPane.rowIndex="1" />
+                        <TextField onKeyTyped="#handleSearch" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField onKeyTyped="#handleSearch" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <TextField onKeyTyped="#handleSearch" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Button mnemonicParsing="false" onAction="#handleClearSearch" text="Clear" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                     </children>
                 </GridPane>
             </children>
@@ -41,19 +41,19 @@
    <right>
         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
             <children>
-                <Button mnemonicParsing="false" text="Back" />
+                <Button mnemonicParsing="false" onAction="#navigateBack" text="Back" />
             </children>
         </VBox>
    </right>
    <center>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <ListView prefHeight="200.0" prefWidth="200.0" />
-            <Button mnemonicParsing="false" text="Add to Playlist" />
+            <ListView fx:id="songListViewList" prefHeight="200.0" prefWidth="200.0" />
+            <Button mnemonicParsing="false" onAction="#handleAddSongToPlayList" text="Add to Playlist" />
          </children>
       </VBox>
    </center>
     <bottom>
-        <fx:include source="MusicPlayer.fxml"/>
+        <fx:include source="MusicPlayer.fxml" />
     </bottom>
 </BorderPane>

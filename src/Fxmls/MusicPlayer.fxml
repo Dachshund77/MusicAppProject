@@ -8,13 +8,15 @@
 
 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MusicPlayerController">
    <children>
+      <Slider />
       <HBox alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Previous" />
-            <Button mnemonicParsing="false" text="Stop" />
-            <Button mnemonicParsing="false" text="Play/Pause" />
-            <Button mnemonicParsing="false" text="Next " />
-            <Button mnemonicParsing="false" text="Home" />
+            <Button mnemonicParsing="false" onAction="#handlePreviousSong" text="Previous" />
+            <Button mnemonicParsing="false" onAction="#handleStop" text="Stop" />
+            <Button mnemonicParsing="false" onAction="#handlePlayPause" text="Play/Pause" />
+            <Button mnemonicParsing="false" onAction="#handleNextSong" text="Next " />
+            <Button mnemonicParsing="false" onAction="#navigateHome" text="Home" />
+            <Slider />
          </children>
       </HBox>
    </children>

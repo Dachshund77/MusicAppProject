@@ -4,6 +4,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -13,11 +15,18 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Main.primaryStage = primaryStage;
+
         Parent root = FXMLLoader.load(getClass().getResource("../Fxmls/Main.fxml"));
         primaryStage.setTitle("Music App");
-        primaryStage.setScene(new Scene(root, 300, 275));
+        Scene scene = new Scene(root,300,275);
+        primaryStage.setScene(scene);
         primaryStage.show();
         //TODO popper close on exist
+
+
+        Media media = new Media("file:///C:/Users/Sven/IdeaProjects/MusicAppProject/src/Views/sample.mp3");
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
     }
 
 
