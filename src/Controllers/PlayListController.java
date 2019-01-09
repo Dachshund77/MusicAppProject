@@ -1,5 +1,6 @@
 package Controllers;
 
+import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -32,8 +33,13 @@ public class PlayListController {
     public void handleDeletePlayList(ActionEvent event) {
     }
 
+    /**
+     * Will change the scene to the {@link MainController}.
+     * @param event A Button click
+     */
     @FXML
     public void navigateBack(ActionEvent event) {
+        ViewController.MAIN.load();
     }
 
     @FXML

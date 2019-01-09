@@ -1,5 +1,6 @@
 package Controllers;
 
+import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -19,8 +20,13 @@ public class SongListController {
     @FXML
     private ListView songViewList;
 
+    /**
+     * Will change the scene to {@link MainController}.
+     * @param event A button click
+     */
     @FXML
     public void navigateBack(ActionEvent event) {
+        ViewController.MAIN.load();
     }
 
     @FXML

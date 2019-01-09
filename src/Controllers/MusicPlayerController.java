@@ -1,5 +1,6 @@
 package Controllers;
 
+import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
@@ -25,7 +26,12 @@ public class MusicPlayerController {
     public void handleNextSong(ActionEvent event) {
     }
 
+    /**
+     * Will Change the scene to {@link MainController}.
+     * @param event A button Click
+     */
     @FXML
     public void navigateHome(ActionEvent event) {
+        ViewController.MAIN.load();
     }
 }

@@ -1,5 +1,6 @@
 package Controllers;
 
+import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -16,11 +17,21 @@ public class MainController {
     @FXML
     private ImageView albumImage;
 
+    /**
+     * Will change the scene to the {@link PlayListController}.
+     * @param event A Button click
+     */
     @FXML
     public void navigateToPlayLists(ActionEvent event) {
+        ViewController.PLAYLIST.load();
     }
 
+    /**
+     * Will change the scene to the {@link SongListController}
+     * @param event A Button click
+     */
     @FXML
     public void navigateToSongs(ActionEvent event) {
+        ViewController.SONGLIST.load();
     }
 }
