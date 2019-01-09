@@ -5,6 +5,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import java.io.IOException;
 
+/**
+ * Can be used to change the scenes easily.
+ * The enum class will store the relative path to the fxml so that we don't need to type it multiple times.
+ */
 public enum ViewController {
     MAIN("../Fxmls/Main.fxml"),
     MUSIC_PLAYER("../Fxmls/MusicPlayer.fxml"),

@@ -25,6 +25,10 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * Helper method that changes the scene by changing the root
+     * @param parent the Parent root of the new Scene
+     */
     public static void setRoot(Parent parent){
         primaryStage.getScene().setRoot(parent);
     }
