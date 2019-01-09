@@ -56,4 +56,7 @@
          </children>
       </VBox>
    </top>
+    <bottom>
+        <fx:include source="MusicPlayer.fxml"/>
+    </bottom>
 </BorderPane>

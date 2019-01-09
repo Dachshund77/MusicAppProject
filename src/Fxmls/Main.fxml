@@ -37,4 +37,7 @@
          </children>
       </HBox>
    </top>
+   <bottom>
+      <fx:include source="MusicPlayer.fxml"/>
+   </bottom>
 </BorderPane>
