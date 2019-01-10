@@ -18,23 +18,21 @@ import java.io.File;
 public class MusicPlayerController {
 
     @FXML
-    public Button nextSongButton;
+    private Button nextSongButton;
     @FXML
-    public Button playPauseButton;
+    private Button playPauseButton;
     @FXML
-    public Button stopSongButton;
+    private Button stopSongButton;
     @FXML
-    public Button previousSongButton;
+    private Button previousSongButton;
     @FXML
-    public CheckBox loopCheckBox;
+    private Label songTimeLabel;
     @FXML
-    public CheckBox shuffleCheckBox;
+    private Slider volumeSlider;
     @FXML
-    public Label songTimeLabel;
+    private Slider songTimeSlider;
     @FXML
-    public Slider volumeSlider;
-    @FXML
-    public Slider songTimeSlider;
+    private Button modeButton;
 
     public void initialize() {
         File file = new File("C:/Users/Sven/IdeaProjects/MusicAppProject/src/Resources/sample.mp3"); //TODO remove before push
@@ -80,5 +78,9 @@ public class MusicPlayerController {
     @FXML
     public void navigateHome(ActionEvent event) {
         ViewController.MAIN.load();
+    }
+
+    @FXML
+    public void handleModeChange(ActionEvent event) {
     }
 }

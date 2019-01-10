@@ -56,14 +56,10 @@
                   <Button mnemonicParsing="false" onAction="#navigateHome" text="Home" />
                </children>
             </VBox>
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
-               <children>
-                  <CheckBox fx:id="loopCheckBox" mnemonicParsing="false" text="Loop" />
-               </children>
-            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <CheckBox fx:id="shuffleCheckBox" mnemonicParsing="false" text="Shuffel" />
+                  <Button fx:id="modeButton" mnemonicParsing="false" onAction="#handleModeChange" text="Button" />
                </children>
             </VBox>
          </children>
