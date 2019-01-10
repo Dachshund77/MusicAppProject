@@ -27,6 +27,7 @@ public class PlayListController {
 
     @FXML
     public void handleEditPlayList(ActionEvent event) {
+        ViewController.UPDATE_PLAYLIST.load();
     }
 
     @FXML
