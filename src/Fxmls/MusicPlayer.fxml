@@ -9,7 +9,7 @@
 <VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MusicPlayerController">
    <children>
       <Slider fx:id="songTimeSlider" />
-      <Label fx:id="songTimeLabel" text="0:00" />
+      <Label fx:id="songTimeLabel" text="00:00" />
       <GridPane alignment="CENTER">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -37,7 +37,7 @@
             </VBox>
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6">
                <children>
-                  <Slider fx:id="volumeSlider" />
+                  <Slider fx:id="volumeSlider" onMouseClicked="#handleVolumeAdjust" onMouseDragged="#handleVolumeAdjust" />
                   <Label text="Volume" />
                </children>
             </VBox>
