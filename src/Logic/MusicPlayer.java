@@ -3,6 +3,7 @@ package Logic;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Class that will be in charge of storing and handling all importing operations for the music application.
@@ -11,6 +12,7 @@ import java.io.File;
 public class MusicPlayer {//TODO there some weird issue that makes the player crash......... no idea why
 
     private static MediaPlayer mediaPlayer;
+    private static ArrayList<Integer> playList;
     private static double volume;
 
     public static void loadSong(File file){
