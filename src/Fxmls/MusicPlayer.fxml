@@ -6,18 +6,67 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MusicPlayerController">
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MusicPlayerController">
    <children>
-      <Slider />
-      <HBox alignment="CENTER">
+      <Slider fx:id="songTimeSlider" />
+      <Label fx:id="songTimeLabel" text="0:00" />
+      <GridPane alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" onAction="#handlePreviousSong" text="Previous" />
-            <Button mnemonicParsing="false" onAction="#handleStop" text="Stop" />
-            <Button mnemonicParsing="false" onAction="#handlePlayPause" text="Play/Pause" />
-            <Button mnemonicParsing="false" onAction="#handleNextSong" text="Next " />
-            <Button mnemonicParsing="false" onAction="#navigateHome" text="Home" />
-            <Slider />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5">
+               <children>
+                  <Button fx:id="nextSongButton" mnemonicParsing="false" onAction="#handleNextSong" text="Next " />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+               <children>
+                  <Button fx:id="playPauseButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handlePlayPause" text="Play/Pause" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6">
+               <children>
+                  <Slider fx:id="volumeSlider" />
+                  <Label text="Volume" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
+               <children>
+                  <Button fx:id="stopSongButton" mnemonicParsing="false" onAction="#handleStop" text="Stop" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+               <children>
+                  <Button fx:id="previousSongButton" mnemonicParsing="false" onAction="#handlePreviousSong" text="Previous" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="7">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#navigateHome" text="Home" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
+               <children>
+                  <CheckBox fx:id="loopCheckBox" mnemonicParsing="false" text="Loop" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <CheckBox fx:id="shuffleCheckBox" mnemonicParsing="false" text="Shuffel" />
+               </children>
+            </VBox>
          </children>
-      </HBox>
+      </GridPane>
    </children>
 </VBox>

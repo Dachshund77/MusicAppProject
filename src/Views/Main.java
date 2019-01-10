@@ -4,10 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
+
+/**
+ * The main stage for the music player application.
+ * This Class will also hold the music player.
+ */
 public class Main extends Application {
 
     private static Stage primaryStage;
@@ -22,13 +25,7 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
         //TODO popper close on exist
-
-
-        Media media = new Media("file:///C:/Users/Sven/IdeaProjects/MusicAppProject/src/Views/sample.mp3");
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.play();
     }
-
 
     public static void main(String[] args) {
         launch(args);
