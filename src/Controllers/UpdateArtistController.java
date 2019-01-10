@@ -1,5 +1,6 @@
 package Controllers;
 
+import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -22,6 +23,7 @@ public class UpdateArtistController {
 
     @FXML
     public void navigateBack(ActionEvent event) {
+        ViewController.UPDATE_SONG.load();
     }
 
     @FXML

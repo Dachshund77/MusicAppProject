@@ -15,11 +15,11 @@ public enum ViewController {
     PLAYLIST("../Fxmls/PlayList.fxml"),
     SONGLIST("../Fxmls/SongList.fxml"),
     UPDATE_ALBUM("../Fxmls/UpdateAlbum.fxml"),
-    UPDATE_ARTIST("../Fxmls/UpdateArtist"),
+    UPDATE_ARTIST("../Fxmls/UpdateArtist.fxml"),
     UPDATE_GENRE("../Fxmls/UpdateGenre.fxml"),
     UPDATE_PLAYLIST("../Fxmls/UpdatePlayList.fxml"),
     UPDATE_SONG("../Fxmls/UpdateSong.fxml"),
-    ADD_SONG_TO_PALYLIST("../Fxmls/AddSongToPlayList.fxml");
+    ADD_SONG_TO_PLAYLIST("../Fxmls/AddSongToPlayList.fxml");
 
     private final String URL;
 

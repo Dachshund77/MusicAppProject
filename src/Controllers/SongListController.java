@@ -35,6 +35,7 @@ public class SongListController {
 
     @FXML
     public void handleEditSong(ActionEvent event) {
+        ViewController.UPDATE_SONG.load();
     }
 
     @FXML

@@ -8,7 +8,7 @@ create table tblSongs(
 	fldLength int,
 	fldNrListens int,
 	fldSongName nchar(50),
-	fldSongFile varbinary,
+	fldSongFile varbinary(MAX),
 	primary key (fldSongID)
 	);
 
@@ -39,7 +39,7 @@ create table tblSongsGenresBridge(
 create table tblAlbums(
 	fldAlbumID int IDENTITY(1,1),
 	fldAlbumName nchar(50),
-	fldAlbumPicture varbinary,
+	fldAlbumPicture varbinary(MAX),
 	primary key (fldAlbumID)
 	);
 

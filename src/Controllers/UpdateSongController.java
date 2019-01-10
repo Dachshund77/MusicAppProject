@@ -1,9 +1,13 @@
 package Controllers;
 
+import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
+import Database.DbHelper;
+
+import java.io.File;
 
 /**
  * In this Scene the user will have the possibility to edit or add a Song.
@@ -22,14 +26,17 @@ public class UpdateSongController {
 
     @FXML
     public void handleAddNewArtist(ActionEvent event) {
+        ViewController.UPDATE_ARTIST.load();
     }
 
     @FXML
     public void handleAddNewAlbum(ActionEvent event) {
+        ViewController.UPDATE_ALBUM.load();
     }
 
     @FXML
     public void handleAddNewGenre(ActionEvent event) {
+        ViewController.UPDATE_GENRE.load();
     }
 
     @FXML
@@ -38,9 +45,11 @@ public class UpdateSongController {
 
     @FXML
     public void handleAddSongFile(ActionEvent event) {
+
     }
 
     @FXML
     public void navigateBack(ActionEvent event) {
+        ViewController.SONGLIST.load();
     }
 }

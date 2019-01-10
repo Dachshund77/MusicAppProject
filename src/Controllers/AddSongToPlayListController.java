@@ -1,5 +1,6 @@
 package Controllers;
 
+import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -23,6 +24,7 @@ public class AddSongToPlayListController {
 
     @FXML
     public void navigateBack(ActionEvent event) {
+        ViewController.UPDATE_PLAYLIST.load();
     }
 
     @FXML

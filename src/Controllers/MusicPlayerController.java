@@ -35,7 +35,7 @@ public class MusicPlayerController {
     private Button modeButton;
 
     public void initialize() {
-        File file = new File("C:/Users/Sven/IdeaProjects/MusicAppProject/src/Resources/sample.mp3"); //TODO remove before push
+        File file = new File("C:/Users/InLeo/IdeaProjects/MusicAppProject/src/Resources/sample.mp3"); //TODO remove before push
         MusicPlayer.loadSong(file);
 
 
