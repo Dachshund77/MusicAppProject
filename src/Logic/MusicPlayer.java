@@ -17,10 +17,10 @@ public class MusicPlayer {//TODO there some weird issue that makes the player cr
     private static boolean shuffleModeOn = false;
     private static boolean loopModeOn = false;
 
-
     public static void loadSong(File file){
         Media media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.statusProperty().addListener((observable, oldValue, newValue) -> System.out.println(newValue.toString()));
     }
 
     public static void playSong(){
@@ -38,4 +38,30 @@ public class MusicPlayer {//TODO there some weird issue that makes the player cr
     public static MediaPlayer.Status getStatus(){
         return mediaPlayer.getStatus();
     }
+
+    public static double getVolume(){
+        return volume;
+    }
+
+    public static void setVolume(double volume){
+        MusicPlayer.volume = volume;
+    }
+
+    public static boolean isShuffleModeOn(){
+        return shuffleModeOn;
+    }
+
+    public static void setShuffeMode(boolean bool){
+        shuffleModeOn = bool;
+    }
+
+    public static boolean isLoopModeOn(){
+        return loopModeOn;
+    }
+
+    public static void setLoopMode(boolean bool){
+        loopModeOn = bool;
+    }
+
+
 }

@@ -59,7 +59,7 @@
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
             <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                <children>
-                  <Button fx:id="modeButton" mnemonicParsing="false" onAction="#handleModeChange" text="Button" />
+                  <Button fx:id="modeButton" mnemonicParsing="false" onAction="#handleModeChange" text="None" />
                </children>
             </VBox>
          </children>
