@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.VBox;
 
 /**
  * This scene will be used to find a playlist and start it.

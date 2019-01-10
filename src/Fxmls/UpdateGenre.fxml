@@ -47,6 +47,6 @@
         </GridPane>
     </center>
     <bottom>
-        <fx:include source="MusicPlayer.fxml" />
+        <fx:include fx:id="musicPlayer" source="MusicPlayer.fxml" />
     </bottom>
 </BorderPane>
