@@ -13,7 +13,10 @@ public class MusicPlayer {//TODO there some weird issue that makes the player cr
 
     private static MediaPlayer mediaPlayer;
     private static ArrayList<Integer> playList;
-    private static double volume;
+    private static double volume = 1.0; // range of 0.0 to 1.0
+    private static boolean shuffleModeOn = false;
+    private static boolean loopModeOn = false;
+
 
     public static void loadSong(File file){
         Media media = new Media(file.toURI().toString());
