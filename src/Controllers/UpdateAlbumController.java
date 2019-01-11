@@ -2,6 +2,7 @@ package Controllers;
 
 import Logic.ViewController;
 import Views.Main;
+import Logic.MusicPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
@@ -18,9 +19,20 @@ import java.io.File;
 public class UpdateAlbumController {
 
     @FXML
+    private MusicPlayerController musicPlayerController;
+    @FXML
     private TextField newAlbumTextField;
     @FXML
     private MenuButton albumMenuButton;
+
+    /**
+     * Initializer that will set the current {@link MusicPlayerController} to the {@link MusicPlayer} Logic.
+     * The MusicPlayer Logic and visuals will not be accessible if not set on initialization.
+     * @see MusicPlayer
+     */
+    public void initialize(){
+        MusicPlayer.setMusicPlayerController(musicPlayerController);
+    }
 
     @FXML
     public void navigateBack(ActionEvent event) {

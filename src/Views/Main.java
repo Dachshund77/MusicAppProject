@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 
 /**
  * The main stage for the music player application.
- * This Class will also hold the music player.
  */
 public class Main extends Application {
 
