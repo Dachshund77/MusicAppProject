@@ -34,6 +34,14 @@ public class MusicPlayerController {
     private Button modeButton;
 
     /**
+     * Initializer that will set the current {@link MusicPlayerController} to the {@link MusicPlayer} Logic.
+     * The MusicPlayer Logic and visuals will not be accessible if not set on initialization.
+     * @see MusicPlayer
+     */
+    public void initialize(){
+        MusicPlayer.setMusicPlayerController(this);
+    }
+    /**
      * Stops the currently playing song by calling {@link MusicPlayer#stopSong()}.
      * This button will be disabled if the input would be nonsensical or invalid.
      * @param event a Button click
