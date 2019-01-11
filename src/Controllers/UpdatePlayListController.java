@@ -15,20 +15,9 @@ import javafx.scene.input.KeyEvent;
 public class UpdatePlayListController {
 
     @FXML
-    private MusicPlayerController musicPlayerController;
-    @FXML
     private Button deleteButton;
     @FXML
     private ListView songListViewList;
-
-    /**
-     * Initializer that will set the current {@link MusicPlayerController} to the {@link MusicPlayer} Logic.
-     * The MusicPlayer Logic and visuals will not be accessible if not set on initialization.
-     * @see MusicPlayer
-     */
-    public void initialize(){
-        MusicPlayer.setMusicPlayerController(musicPlayerController);
-    }
 
     @FXML
     public void handleAddSongToPlayList(ActionEvent event) {

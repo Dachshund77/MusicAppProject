@@ -15,22 +15,11 @@ import javafx.scene.input.KeyEvent;
 public class SongListController {
 
     @FXML
-    private MusicPlayerController musicPlayerController;
-    @FXML
     private Button editSongButton;
     @FXML
     private Button deleteSongButton;
     @FXML
     private ListView songViewList;
-
-    /**
-     * Initializer that will set the current {@link MusicPlayerController} to the {@link MusicPlayer} Logic.
-     * The MusicPlayer Logic and visuals will not be accessible if not set on initialization.
-     * @see MusicPlayer
-     */
-    public void initialize(){
-        MusicPlayer.setMusicPlayerController(musicPlayerController);
-    }
 
     /**
      * Will change the scene to {@link MainController}.

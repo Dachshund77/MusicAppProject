@@ -17,22 +17,11 @@ import javafx.scene.layout.VBox;
 public class PlayListController {
 
     @FXML
-    private MusicPlayerController musicPlayerController;
-    @FXML
     private Button editPlayListButton;
     @FXML
     private Button deletePlayListButton;
     @FXML
     private ListView playListViewList;
-
-    /**
-     * Initializer that will set the current {@link MusicPlayerController} to the {@link MusicPlayer} Logic.
-     * The MusicPlayer Logic and visuals will not be accessible if not set on initialization.
-     * @see MusicPlayer
-     */
-    public void initialize(){
-        MusicPlayer.setMusicPlayerController(musicPlayerController);
-    }
 
     @FXML
     public void handleAddPlayList(ActionEvent event) {

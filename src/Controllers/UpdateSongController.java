@@ -16,8 +16,6 @@ import java.io.File;
 public class UpdateSongController {
 
     @FXML
-    private MusicPlayerController musicPlayerController;
-    @FXML
     private TextField songNameTextField;
     @FXML
     private MenuButton artistMenuButton;
@@ -25,15 +23,6 @@ public class UpdateSongController {
     private MenuButton albumMenuButton;
     @FXML
     private MenuButton genreMenuButton;
-
-    /**
-     * Initializer that will set the current {@link MusicPlayerController} to the {@link MusicPlayer} Logic.
-     * The MusicPlayer Logic and visuals will not be accessible if not set on initialization.
-     * @see MusicPlayer
-     */
-    public void initialize(){
-        MusicPlayer.setMusicPlayerController(musicPlayerController);
-    }
 
     @FXML
     public void handleAddNewArtist(ActionEvent event) {
