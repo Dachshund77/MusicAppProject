@@ -53,7 +53,7 @@ public enum ViewController {
      * <font color="red">
      * IMPORTANT:
      * </font>
-     * In order to pass a values the new controller need to extends the 'Controller' abstract class and override its methods.
+     * In order to pass a values the new controller needs to extends the 'Controller' abstract class and override its methods.
      * </p>
      *
      * @see Controllers

@@ -29,9 +29,7 @@ public class MusicPlayer {
     private static MediaPlayer mediaPlayer;
     private static ArrayList<Integer> playList;
     private static double volume = 1.0; // range of 0.0 to 1.0
-    private static boolean shuffleModeOn = false;
-    private static boolean loopSongOn = false;
-    private static boolean loopPlayListOn = false;
+    private static PlayMode playMode = PlayMode.NONE;
     private static Integer currentSongIndex;
     private static MusicPlayerController musicPlayerController;
     private static MediaPlayer.Status mediaPlayerStatus; //Needed for the playBack adjust
@@ -247,19 +245,12 @@ public class MusicPlayer {
     }
 
     /**
-     * Sets the text of the modeButton in the {@link MusicPlayerController} depending on what mod is active.
+     * Sets the text of the modeButton in the {@link MusicPlayerController} depending on what mode is active.
+     * @see PlayMode
      */
     private static void updateModeButton() {
         Button modeButton = musicPlayerController.getModeButton();
-        if (loopSongOn) {
-            modeButton.setText("Loop Song");
-        } else if (loopPlayListOn) {
-            modeButton.setText("Loop PlayList");
-        } else if (shuffleModeOn) {
-            modeButton.setText("Shuffle");
-        } else {
-            modeButton.setText("None");
-        }
+        modeButton.setText(playMode.toString());
     }
 
     /**
@@ -302,13 +293,14 @@ public class MusicPlayer {
      * <li>Shuffle, will play random songs from the given PlayList</li>
      * </ul>
      * If no mode is selected and there are more songs the player will just load the next song.
+     * @see PlayMode
      */
     private static void handleEndOfMedia() {
-        if (shuffleModeOn) {
+        if (playMode == PlayMode.SHUFFLE) {
             loadSong(new Random().nextInt(playList.size()));
-        } else if (loopSongOn) {
+        } else if (playMode == PlayMode.LOOP_SONG) {
             loadSong(currentSongIndex);
-        } else if (!hasNextSong() && loopPlayListOn) {
+        } else if (!hasNextSong() && playMode == PlayMode.LOOP_PLAYLIST) {
             loadSong();
         } else {
             loadSong(currentSongIndex++);
@@ -387,31 +379,26 @@ public class MusicPlayer {
     }
 
     /**
-     * manages what mode the player will be played at.
+     * Manages what mode the player will be played at.
      * This method will also update the ModeButton in the {@link MusicPlayerController}.
+     * @see PlayMode
      */
     public static void changePlayMode() {
-        Button modeButton = musicPlayerController.getModeButton();
-        switch (modeButton.getText()) {
-            case "None":
-                modeButton.setText("Loop Song");
-                loopSongOn = true;
+        switch (playMode){
+            case NONE:
+                playMode = PlayMode.LOOP_SONG;
                 break;
-            case "Loop Song":
-                modeButton.setText("Loop PlayList");
-                loopSongOn = false;
-                loopPlayListOn = true;
+            case LOOP_SONG:
+                playMode = PlayMode.LOOP_PLAYLIST;
                 break;
-            case "Loop PlayList":
-                modeButton.setText("Shuffle");
-                loopPlayListOn = false;
-                shuffleModeOn = true;
+            case LOOP_PLAYLIST:
+                playMode = PlayMode.SHUFFLE;
                 break;
-            case "Shuffle":
-                modeButton.setText("None");
-                shuffleModeOn = false;
+            case SHUFFLE:
+                playMode = PlayMode.NONE;
                 break;
         }
+        updateModeButton();
     }
 
     public static ArrayList<Integer> getPlayList() {
