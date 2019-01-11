@@ -11,7 +11,7 @@ import javafx.scene.image.ImageView;
  * The main window. Here we will display information about the current song like picture artist etc.
  * From this scene we can navigate either to {@link SongListController} or {@link PlayListController}.
  */
-public class MainController {
+public class MainController extends Controller{
 
     @FXML
     private Label songInfoLabel;
@@ -33,6 +33,7 @@ public class MainController {
      */
     @FXML
     public void navigateToSongs(ActionEvent event) {
-        ViewController.SONGLIST.load();
+        //ViewController.SONGLIST.load();
+        ViewController.SONGLIST.load("Test");
     }
 }

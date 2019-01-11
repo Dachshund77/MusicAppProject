@@ -16,7 +16,7 @@ import java.io.File;
 /**
  * In this scene the user can Add, edit or Delete a Genre.
  */
-public class UpdateAlbumController {
+public class UpdateAlbumController extends Controller{
 
     @FXML
     private TextField newAlbumTextField;

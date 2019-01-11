@@ -10,7 +10,7 @@ import javafx.scene.input.KeyEvent;
 /**
  * In this scene the user can pick a song to that will be added to the playlist.
  */
-public class AddSongToPlayListController {
+public class AddSongToPlayListController extends Controller{
 
     @FXML
     private ListView songListViewList;

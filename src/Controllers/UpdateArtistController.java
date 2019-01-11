@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 /**
  * In this scene the user can add, delete or edit an Artist.
  */
-public class UpdateArtistController {
+public class UpdateArtistController extends Controller{
 
     @FXML
     private TextField newArtistTextField;

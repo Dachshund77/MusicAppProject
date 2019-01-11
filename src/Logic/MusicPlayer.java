@@ -15,7 +15,14 @@ import java.util.Random;
 /**
  * MusicPlayer Logic that is in charge of managing a MediaPlayer.
  * This class will be the main manager of the MediaPlayer.
- * IMPORTANT: in order for this Class to work with a Controller it must be set with {@link MusicPlayer#setMusicPlayerController(MusicPlayerController)}.
+ * <br><br>
+ * <p>
+ * <font color='red'>
+ * IMPORTANT:
+ * </font>
+ * <br>
+ * in order for this Class to work with a Controller it must be set with {@link MusicPlayer#setMusicPlayerController(MusicPlayerController)}.
+ * </p>
  */
 public class MusicPlayer {
 
@@ -358,7 +365,7 @@ public class MusicPlayer {
     }
 
     /**
-     * Sets the current MediPlayer to a new PlayBack time
+     * Sets the current MediaPlayer to a new PlayBack time
      * @param value double from 0 to 100
      */
     public static void setPlaybackTime(double value) {

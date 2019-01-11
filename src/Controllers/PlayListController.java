@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
  * The user can either go back to {@link MainController} or if he/she want to edit a playlist go
  * to {@link UpdatePlayListController}.
  */
-public class PlayListController {
+public class PlayListController extends Controller{
 
     @FXML
     private Button editPlayListButton;
