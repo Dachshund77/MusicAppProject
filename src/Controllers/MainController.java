@@ -1,5 +1,6 @@
 package Controllers;
 
+import Logic.MusicPlayer;
 import Logic.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,9 +14,20 @@ import javafx.scene.image.ImageView;
 public class MainController {
 
     @FXML
+    private MusicPlayerController musicPlayerController;
+    @FXML
     private Label songInfoLabel;
     @FXML
     private ImageView albumImage;
+
+    /**
+     * Initializer that will set the current {@link MusicPlayerController} to the {@link MusicPlayer} Logic.
+     * The MusicPlayer Logic and visuals will not be accessible if not set on initialization.
+     * @see MusicPlayer
+     */
+    public void initialize(){
+        MusicPlayer.setMusicPlayerController(musicPlayerController);
+    }
 
     /**
      * Will change the scene to the {@link PlayListController}.

@@ -8,7 +8,7 @@
 
 <VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MusicPlayerController">
    <children>
-      <Slider fx:id="songTimeSlider" />
+      <Slider fx:id="songTimeSlider" onMousePressed="#handleStartPlaybackAdjust" onMouseReleased="#handleEndPlaybackTimeAdjust" />
       <Label fx:id="songTimeLabel" text="00:00" />
       <GridPane alignment="CENTER">
         <columnConstraints>
