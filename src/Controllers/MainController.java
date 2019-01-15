@@ -1,7 +1,6 @@
 package Controllers;
 
-import Logic.MusicPlayer;
-import Logic.ViewController;
+import Logic.Player.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -33,7 +32,6 @@ public class MainController extends Controller{
      */
     @FXML
     public void navigateToSongs(ActionEvent event) {
-        //ViewController.SONGLIST.load();
-        ViewController.SONGLIST.load("Test");
+        ViewController.SONGLIST.load();
     }
 }

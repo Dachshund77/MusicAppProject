@@ -1,13 +1,10 @@
 package Controllers;
 
-import Logic.ViewController;
-import Logic.MusicPlayer;
+import Logic.Player.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
-import Database.DbHelper;
-import java.io.File;
 
 /**
  * In this Scene the user will have the possibility to edit or add a Song.

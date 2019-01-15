@@ -33,7 +33,7 @@ create table tblSongsGenresBridge(
 	fldSongID int,
 	fldGenreName nchar(50),
 	foreign key (fldSongID) references tblSongs(fldSongID) ON DELETE CASCADE,
-	foreign key (fldGenreName) references tblGenres(fldGenreName) ON DELETE CASCADE
+	foreign key (fldGenreName) references tblGenres(fldGenreName) ON DELETE CASCADE ON UPDATE CASCADE
 	);
 
 create table tblAlbums(
@@ -50,15 +50,15 @@ create table tblSongsAlbumsBridge(
 	foreign key (fldAlbumID) references tblAlbums(fldAlbumID) ON DELETE CASCADE,
 	);
 
-create table tblPlaylists(
-	fldPlaylistID int IDENTITY(1,1) NOT NULL,
-	fldPlaylistName nchar(50),
-	primary key (fldPlaylistID)
+create table tblPlayLists(
+	fldPlayListID int IDENTITY(1,1) NOT NULL,
+	fldPlayListName nchar(50),
+	primary key (fldPlayListID)
 	);
 
-create table tblSongsPlaylistsBridge(
-	fldPlaylistID int,
-	fldSongID int,
+create table tblSongsPlayListsBridge(
+    fldSongID int,
+	fldPlayListID int,
 	foreign key (fldSongID) references tblSongs(fldSongID) ON DELETE CASCADE,
-	foreign key (fldPlaylistID) references tblPlaylists(fldPlaylistID) ON DELETE CASCADE
+	foreign key (fldPlayListID) references tblPlayLists(fldPlayListID) ON DELETE CASCADE
 	);

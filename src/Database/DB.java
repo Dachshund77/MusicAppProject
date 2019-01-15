@@ -1,5 +1,4 @@
 package Database;
-
 //Step 1 import libs
 import java.io.*;
 import java.sql.*;
@@ -97,6 +96,32 @@ public class DB {
             ps.setBinaryStream(1, new FileInputStream(file),(int)file.length());
             ps.executeUpdate();
         } catch (SQLException | FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            cleanUp();
+        }
+        return true;
+    }
+
+    public static boolean executePreparedBatch(String statement, String[][] statements){ //TODO i have no idea if this will work
+        conn = null;
+        ps = null;
+        try {
+            //Step 3 open connection
+            connect();
+            //Step 4 Execute query
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(statement);
+            for (String[] s : statements) {
+                for (int i = 0; i < s.length; i++) {
+                    ps.setString(i, s[i]);
+                }
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }finally {

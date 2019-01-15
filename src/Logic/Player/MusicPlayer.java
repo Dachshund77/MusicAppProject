@@ -1,4 +1,4 @@
-package Logic;
+package Logic.Player;
 
 import Controllers.MusicPlayerController;
 import javafx.scene.control.Button;
@@ -55,7 +55,7 @@ public class MusicPlayer {
      * Loads a song by file.
      * This method enlist an number of listeners that will keep track of important events.
      * Note that the song will not ne automatic played.
-     * @param file
+     * @param file the song that will be played
      */
     public static void loadSong(File file) { //TODO we would like to get a songFile via songID since we store and need the id in this calls anyway. Also some specifics how the use flow should work need to be discussed
         //Kill previous song

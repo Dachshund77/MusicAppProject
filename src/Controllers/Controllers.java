@@ -1,5 +1,7 @@
 package Controllers;
 
+import Logic.Player.ViewController;
+
 /**
  * Interface to allow polymorphism between this applications Controllers.
  */
@@ -15,7 +17,7 @@ public interface Controllers {
      * </font>
      * This method need to be overridden to work correctly.
      * </p>
-     * Consult {@link Logic.ViewController} Enum class if custom values are needed.
+     * Consult {@link ViewController} Enum class if custom values are needed.
      * @param string String passed to the new Controller
      * @see Controller
      */

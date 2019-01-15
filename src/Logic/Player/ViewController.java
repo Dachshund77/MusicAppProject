@@ -1,4 +1,4 @@
-package Logic;
+package Logic.Player;
 
 import Controllers.Controllers;
 import Controllers.UpdateSongController;
@@ -53,7 +53,7 @@ public enum ViewController {
      * <font color="red">
      * IMPORTANT:
      * </font>
-     * In order to pass a values the new controller needs to extends the 'Controller' abstract class and override its methods.
+     * In order to pass a value the new controller needs to extends the 'Controller' abstract class and override its methods.
      * </p>
      *
      * @see Controllers
@@ -63,7 +63,7 @@ public enum ViewController {
             If another parameter needs to passed follow thees steps:
             1) Create a initValues( - your parameters -) in the Controllers interface
             2) Create the same initValues in the Abstract class Controller, and please keep the style of error messages
-            3) Copy paste this method and change the parameter
+            3) Copy paste this method in here and change the parameter
             4) Make sure you call the correct initValues in this method
             */
     public void load(String string) {

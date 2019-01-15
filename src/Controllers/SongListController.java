@@ -1,6 +1,6 @@
 package Controllers;
 
-import Logic.ViewController;
+import Logic.Player.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

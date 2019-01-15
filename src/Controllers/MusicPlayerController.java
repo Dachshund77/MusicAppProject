@@ -1,6 +1,6 @@
 package Controllers;
 
-import Logic.MusicPlayer;
+import Logic.Player.MusicPlayer;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

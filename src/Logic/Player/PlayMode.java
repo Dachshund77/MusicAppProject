@@ -1,4 +1,4 @@
-package Logic;
+package Logic.Player;
 
 /**
  * Enum that will be help to determine the way  'end of Media' will handled in {@link MusicPlayer}.
