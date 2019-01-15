@@ -4,16 +4,16 @@ GO
 use dbMusicPlayer;
 
 create table tblSongs(
-	fldSongID int IDENTITY(1,1),
+	fldSongID int IDENTITY(1,1) NOT NULL,
 	fldLength int,
 	fldNrListens int,
 	fldSongName nchar(50),
-	fldSongFile varbinary(MAX),
+	fldSongFile varbinary(MAX) NOT NULL,
 	primary key (fldSongID)
 	);
 
 create table tblArtists(
-	fldArtistID int IDENTITY(1,1),
+	fldArtistID int IDENTITY(1,1) NOT NULL,
 	fldArtistName nchar(50)
 	primary key (fldArtistID)
 	);
@@ -26,18 +26,18 @@ create table tblSongsArtistsBridge(
 	);
 
 create table tblGenres(
-	fldGenreName nchar(50),
+	fldGenreName nchar(50) NOT NULL,
 	primary key (fldGenreName));
 
 create table tblSongsGenresBridge(
 	fldSongID int,
 	fldGenreName nchar(50),
 	foreign key (fldSongID) references tblSongs(fldSongID) ON DELETE CASCADE,
-	foreign key (fldGenreName) references tblGenre ON DELETE CASCADE
+	foreign key (fldGenreName) references tblGenres(fldGenreName) ON DELETE CASCADE
 	);
 
 create table tblAlbums(
-	fldAlbumID int IDENTITY(1,1),
+	fldAlbumID int IDENTITY(1,1) NOT NULL,
 	fldAlbumName nchar(50),
 	fldAlbumPicture varbinary(MAX),
 	primary key (fldAlbumID)
@@ -51,7 +51,7 @@ create table tblSongsAlbumsBridge(
 	);
 
 create table tblPlaylists(
-	fldPlaylistID int IDENTITY(1,1),
+	fldPlaylistID int IDENTITY(1,1) NOT NULL,
 	fldPlaylistName nchar(50),
 	primary key (fldPlaylistID)
 	);
