@@ -194,7 +194,7 @@ public class DbHelper {
     }
 
     public static File getSong(int SongID){
-
+        return new File("test");
     }
 
     public static Object[] findAndGetSongRecord(int fldSongID) { //TODO untested and also not clean
@@ -225,11 +225,11 @@ public class DbHelper {
     }
 
     public static ArrayList<Object[]> findAndGetSongRecord(String songName, String artist, String album, String genre) {
-
+        return new ArrayList<>();
     }
 
     public static ArrayList<Object[]> findAndGetPlayListRecord(String playListName, String songName, String artist, String album, String genre) {
-
+        return new ArrayList<>();
     }
 
     public static void changePlayList(int playListID, int[] songIDs){
