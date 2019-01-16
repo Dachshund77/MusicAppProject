@@ -41,4 +41,14 @@ public class PlayListRecord {
     public void setSongRecords(HashSet<SongRecord> songRecords) {
         this.songRecords = songRecords;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean returnBoolean = false;
+        PlayListRecord other = (PlayListRecord) obj;
+        if (this.playListID == other.playListID){
+            returnBoolean = true;
+        }
+        return returnBoolean;
+    }
 }

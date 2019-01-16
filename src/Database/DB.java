@@ -25,7 +25,7 @@ public class DB {
     }
     static {
         Properties props = new Properties();
-        String fileName = "src/db.properties";
+        String fileName = "src/Database/db.properties";
         InputStream input;
         try {
             input = new FileInputStream(fileName);

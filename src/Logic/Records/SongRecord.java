@@ -88,4 +88,14 @@ public class SongRecord {
     public void setGenres(HashSet<String> genres) {
         this.genres = genres;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        boolean returnBoolean = false;
+        SongRecord other = (SongRecord) obj;
+        if (this.songID == other.songID){
+            returnBoolean = true;
+        }
+        return returnBoolean;
+    }
 }
