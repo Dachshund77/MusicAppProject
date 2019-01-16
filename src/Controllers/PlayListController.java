@@ -1,5 +1,6 @@
 package Controllers;
 
+import Database.DbHelper;
 import Logic.Player.ViewController;
 import Logic.Records.PlayListRecord;
 import javafx.beans.property.SimpleStringProperty;
@@ -29,11 +30,12 @@ public class PlayListController extends Controller{
     @FXML
     private TableView playListTableView;
 
+    /**
+     * this inititlizes the PlaylistTableView and implements the database to it using {@link DbHelper}
+     */
     public void initialize(){
-        PlayListRecord playListRecord = new PlayListRecord(1,"PlayList1");
         TableView table = new TableView();
-        ArrayList<PlayListRecord> playListName = new ArrayList<PlayListRecord>();
-        playListName.add(playListRecord);
+        ArrayList<PlayListRecord> playListName = new ArrayList<PlayListRecord>(DbHelper.findAndGetPlayListRecord(null,null,null,null,null));
         ObservableList<PlayListRecord> song = FXCollections.observableArrayList(playListName);
         playListTableView.setItems(song);
         TableColumn<PlayListRecord,String> playListCol = new TableColumn<>("PlayList");

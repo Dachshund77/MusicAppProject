@@ -1,9 +1,6 @@
 package Logic.Records;
 import java.io.File;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
+import java.util.*;
 
 public class SongRecord {
 
@@ -15,7 +12,6 @@ public class SongRecord {
     private HashSet<AlbumRecord> albumRecords;
     private HashSet<String> genres;
     private File songFile;
-
     public SongRecord(int songID, Integer length, Integer nrOfListens, String songName) {
         this.songID = songID;
         this.length = length;
@@ -49,6 +45,8 @@ public class SongRecord {
         this.songFile = songFile;
     }
 
+
+
     public String FormatAlbumName (){
         StringBuilder str = new StringBuilder();
 
@@ -59,7 +57,6 @@ public class SongRecord {
 
         return str.toString();
     }
-
     public String FormatArtistName() {
         StringBuilder str = new StringBuilder();
 
