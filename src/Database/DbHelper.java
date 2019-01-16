@@ -218,7 +218,17 @@ public class DbHelper {
     }
 
     public static ArrayList<Integer> getSongIDs(int playListID){
-        return new ArrayList<Integer>();
+        ArrayList<Integer> returnArrayList = new ArrayList<>();
+        //Getting values
+        ArrayList<Object[]> tempObjectArray = DB.select("SELECT fldSongID FROM tblSongsPlayListsBridge WHERE fldPlayListID = "+playListID);
+
+        // Unpacking values
+        for (Object[] objects : tempObjectArray) {
+            for (Object object : objects) {
+                returnArrayList.add((Integer)object);
+            }
+        }
+        return returnArrayList;
     }
 
     public static SongRecord getSongRecord(int fldSongID) { //TODO untested and also not clean
