@@ -1,15 +1,21 @@
 package Logic.Player;
 
+import Controllers.MainController;
 import Controllers.MusicPlayerController;
+import Database.DbHelper;
+import Logic.Records.AlbumRecord;
+import Logic.Records.ArtistRecord;
+import Logic.Records.SongRecord;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -32,36 +38,52 @@ public class MusicPlayer {
     private static PlayMode playMode = PlayMode.NONE;
     private static Integer currentSongIndex;
     private static MusicPlayerController musicPlayerController;
+    private static MainController mainController;
     private static MediaPlayer.Status mediaPlayerStatus; //Needed for the playBack adjust
+    private static SongRecord currentSongRecord;
 
     /**
-     * Loads the first song of a playlist.
-     * Note that the song will not be automatically played.
+     * Loads the first song of a playlist unless Shuffle mode is on.
      */
     public static void loadSong() {
-        loadSong(0);
+        if (playMode == PlayMode.SHUFFLE) {
+            loadSong(new Random().nextInt(playList.size()));
+        } else {
+            loadSong(0);
+        }
     }
 
     /**
-     * Loads a song specified by the singID.
-     * Note that the song will not be automatic played.
+     * Loads a song specified by the songID.
+     * This method also is in charge setting the currentSongIndex
+     *
      * @param songID songID of the song in theDatabase
      */
     public static void loadSong(int songID) {
-        //We need to set and currenSongId Here
+        // Set Index
+        currentSongIndex = playList.indexOf(songID);
+        // Get File
+        currentSongRecord = DbHelper.getSongRecord(songID);
+        setAlbumImage();
+        loadSong(currentSongRecord.getSongFile());
+
     }
 
     /**
      * Loads a song by file.
      * This method enlist an number of listeners that will keep track of important events.
-     * Note that the song will not ne automatic played.
+     * Note that the song will not be automatic played if the previous player was stopped.
+     *
      * @param file the song that will be played
      */
-    public static void loadSong(File file) { //TODO we would like to get a songFile via songID since we store and need the id in this calls anyway. Also some specifics how the use flow should work need to be discussed
+    public static void loadSong(File file) {
         //Kill previous song
+        MediaPlayer.Status oldStatus = null;
         if (mediaPlayer != null) {
+            oldStatus = mediaPlayer.getStatus();
             mediaPlayer.dispose();
         }
+
         //Load new song
         Media media = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(media);
@@ -72,6 +94,12 @@ public class MusicPlayer {
             updateTimeLabel();
             updateTimeSlider();
         });
+
+        // Starts the song if the previous mediaPlayer is playing
+        if (oldStatus != null && oldStatus != MediaPlayer.Status.STOPPED) {
+            mediaPlayer.play();
+        }
+
     }
 
     /**
@@ -150,12 +178,14 @@ public class MusicPlayer {
         updateModeButton();
         //Handling VolumeSlider
         updateVolumneSlider();
+        updateSongInfoLabels();
 
     }
 
     /**
      * Sets the for the PlayPauseButton in the {@link MusicPlayerController} depending on the
      * status of the MediaPlayer.
+     *
      * @param status Current State of the MediaPlayer
      */
     private static void updatePlayPauseButton(MediaPlayer.Status status) {
@@ -192,6 +222,7 @@ public class MusicPlayer {
     /**
      * Sets the for the stopSongButton in the {@link MusicPlayerController} depending on the
      * status of the MediaPlayer.
+     *
      * @param status Current State of the MediaPlayer
      */
     private static void updateStopButton(MediaPlayer.Status status) {
@@ -246,6 +277,7 @@ public class MusicPlayer {
 
     /**
      * Sets the text of the modeButton in the {@link MusicPlayerController} depending on what mode is active.
+     *
      * @see PlayMode
      */
     private static void updateModeButton() {
@@ -285,6 +317,48 @@ public class MusicPlayer {
     }
 
     /**
+     * Method that controls the text of the songInfoLabel in {@link MainController}.
+     */
+    private static void updateSongInfoLabels(){ //TODO could be displayed better
+        if (mainController != null){
+            StringBuilder builder = new StringBuilder();
+            //Song Name
+            builder.append("name: ");
+            builder.append(currentSongRecord.getSongName());
+            builder.append("\n");
+            // Artist names
+            HashSet<ArtistRecord> artists = currentSongRecord.getArtistRecords();
+            builder.append("Artist(s): ");
+            for (ArtistRecord artist : artists) {
+                builder.append(artist);
+                builder.append(" ");
+            }
+            builder.append("\n");
+            // Album Names
+            HashSet<AlbumRecord> albumRecords = currentSongRecord.getAlbumRecords();
+            builder.append("Album(s): ");
+            for (AlbumRecord albumRecord : albumRecords) {
+                builder.append(albumRecord);
+                builder.append(" ");
+            }
+            builder.append("\n");
+            // Genres
+            HashSet<String> genres = currentSongRecord.getGenres();
+            builder.append("Genre(s) ");
+            for (String genre : genres) {
+                builder.append(genre);
+                builder.append(" ");
+            }
+            builder.append("\n");
+            // nr of listens
+            builder.append("Nr of Listens: ");
+            builder.append(currentSongRecord.getNrOfListens());
+            //Update
+            mainController.getSongInfoLabel().setText(builder.toString());
+        }
+    }
+
+    /**
      * Invoked at the end of a song and will decide how the player proceeds, depending on current mode.
      * The modes are:
      * <ul>
@@ -293,9 +367,11 @@ public class MusicPlayer {
      * <li>Shuffle, will play random songs from the given PlayList</li>
      * </ul>
      * If no mode is selected and there are more songs the player will just load the next song.
+     *
      * @see PlayMode
      */
     private static void handleEndOfMedia() {
+        DbHelper.incrementNrListens(currentSongRecord.getSongID());
         if (playMode == PlayMode.SHUFFLE) {
             loadSong(new Random().nextInt(playList.size()));
         } else if (playMode == PlayMode.LOOP_SONG) {
@@ -309,6 +385,7 @@ public class MusicPlayer {
 
     /**
      * Helper method that checks the playlist if there are more song.
+     *
      * @return true if there are more songs
      */
     private static boolean hasNextSong() {
@@ -321,6 +398,7 @@ public class MusicPlayer {
 
     /**
      * Helper method that checks the playlist if there is a previous song.
+     *
      * @return true if there is a previous songs
      */
     private static boolean hasPreviousSong() {
@@ -335,6 +413,7 @@ public class MusicPlayer {
      * Saves the current status of the MediaPlayer.
      * Note that this method also pause the MediaPlayer.
      * This method will used to set the PlayBack time.
+     *
      * @see MusicPlayerController#handleStartPlaybackAdjust(MouseEvent)
      */
     public static void saveStatus() {
@@ -344,6 +423,7 @@ public class MusicPlayer {
 
     /**
      * Plays the MediaPlayer, depending on the Status field.
+     *
      * @see MusicPlayer#setPlaybackTime(double)
      */
     private static void resumeStatus() {
@@ -358,6 +438,7 @@ public class MusicPlayer {
 
     /**
      * Sets the current MediaPlayer to a new PlayBack time
+     *
      * @param value double from 0 to 100
      */
     public static void setPlaybackTime(double value) {
@@ -369,6 +450,7 @@ public class MusicPlayer {
 
     /**
      * Sets the volumne the song played at.
+     *
      * @param value double from 0 to 1
      */
     public static void setVolume(double value) {
@@ -381,10 +463,11 @@ public class MusicPlayer {
     /**
      * Manages what mode the player will be played at.
      * This method will also update the ModeButton in the {@link MusicPlayerController}.
+     *
      * @see PlayMode
      */
     public static void changePlayMode() {
-        switch (playMode){
+        switch (playMode) {
             case NONE:
                 playMode = PlayMode.LOOP_SONG;
                 break;
@@ -405,17 +488,93 @@ public class MusicPlayer {
         return playList;
     }
 
+    /**
+     * Sets a new playList for the MediaPlayer and will attempt to play it immediately.
+     *
+     * @param newPlayList Array of SongIDs that will be played
+     */
     public static void setPlayList(ArrayList<Integer> newPlayList) {
         playList = newPlayList;
         updateGUI();
+        loadSong();
+    }
+
+    /**
+     * Sets a new playList for the MediPlayer and will attempt to plat it immediately.
+     * Note that this implementation is slower than {@link MusicPlayer#setPlayList(ArrayList)}, since we connect to the Database.
+     *
+     * @param playListID The playList we will load
+     */
+    public static void setPlayList(int playListID){
+        playList = DbHelper.getSongIDs(playListID);
+        updateGUI();
+        loadSong();
     }
 
     /**
      * Sets the controller references in MusicPlayer, and enables visual feedback and user interaction with the MusicPlayer Logic.
+     *
      * @param musicPlayerController MusicPlayerController we want to interact with
      */
     public static void setMusicPlayerController(MusicPlayerController musicPlayerController) {
         MusicPlayer.musicPlayerController = musicPlayerController;
         updateGUI();
+    }
+
+    /***
+     * Sets the MainController field, this will be needed to access the Label and ImageView
+     *
+     * @param mainController The mainController scene
+     */
+    public static void setMainController(MainController mainController) {
+        MusicPlayer.mainController = mainController;
+        updateGUI();
+    }
+
+    /**
+     * Gets a picture from the currentSongRecord
+     *
+     * @return Picture Image
+     */
+    public static Image getAlbumImage(){
+        Image returnImage = null;
+        if (currentSongRecord != null){
+            HashSet<AlbumRecord> albumRecords = currentSongRecord.getAlbumRecords();
+            for (AlbumRecord albumRecord : albumRecords) {
+                if (albumRecord.getAlbumPicture() != null){
+                    File file = albumRecord.getAlbumPicture();
+                    returnImage = new Image(file.toURI().toString());
+                    break;
+                }
+            }
+        }
+        return returnImage;
+    }
+
+    /**
+     * Sets the image in the MainController
+     * This will be used at the start of a load
+     */
+    public static void setAlbumImage(){
+        if (mainController != null){
+            Image image = getAlbumImage();
+            mainController.setAlbumImage(image);
+        }
+    }
+
+    /**
+     * Removes all entries of the songID in the current PlayList.
+     * This method should be used when we delete critical information for the Database
+     *
+     * @param songID The songIDs that will be removed
+     */
+    public static void removeFromPlayList(int songID) {
+        if (playList != null) {
+            for (Integer integer : playList) {
+                if (integer == songID) {
+                    playList.remove(integer);
+                }
+            }
+        }
     }
 }
