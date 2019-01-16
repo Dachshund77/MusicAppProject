@@ -115,7 +115,8 @@ public class DB {
             ps = conn.prepareStatement(statement);
             for (String[] s : statements) {
                 for (int i = 0; i < s.length; i++) {
-                    ps.setString(i, s[i]);
+                    System.out.println("setter "+(i+1)+" and "+s[i]);
+                    ps.setString(i+1, s[i]);
                 }
                 ps.addBatch();
             }
@@ -129,6 +130,8 @@ public class DB {
         }
         return true;
     }
+
+
 
 
     private static void connect(){

@@ -203,8 +203,12 @@ public class DbHelper {
         return returnBoolean;
     }
 
-    public static void incrementNrListens(int songID){
+    public static void incrementNrListens(int songID) {
 
+    }
+
+    public static int[] getSongIDs(int playListID){
+        return new int[2];
     }
 
     public static SongRecord getSongRecord(int fldSongID) { //TODO untested and also not clean
@@ -225,31 +229,31 @@ public class DbHelper {
         // Retrieving Data
         for (Object[] objects : songsQuery) {
             if (returnSongRecord == null) {
-                int songID = (int)objects[0];
-                Integer length = (Integer)objects[1];
-                Integer nrListens = (Integer)objects[2];
-                String songName = (String)objects[3];
-                int artistID = (int)objects[4];
-                String artist = (String)objects[5];
-                int albumID = (int)objects[6];
-                String albumName = (String)objects[7];
-                String genre = (String)objects[8];
-                File songFile = convertToFile((byte[])objects[9],".mp3");
-                File imageFile = convertToFile((byte[])objects[10],".jpg");
+                int songID = (int) objects[0];
+                Integer length = (Integer) objects[1];
+                Integer nrListens = (Integer) objects[2];
+                String songName = (String) objects[3];
+                int artistID = (int) objects[4];
+                String artist = (String) objects[5];
+                int albumID = (int) objects[6];
+                String albumName = (String) objects[7];
+                String genre = (String) objects[8];
+                File songFile = convertToFile((byte[]) objects[9], ".mp3");
+                File imageFile = convertToFile((byte[]) objects[10], ".jpg");
 
-                ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
-                AlbumRecord albumRecord = new AlbumRecord(albumID,albumName,imageFile);
-                returnSongRecord = new SongRecord(songID, length,nrListens,songName,artistRecord,albumRecord,genre,songFile);
+                ArtistRecord artistRecord = new ArtistRecord(artistID, artist);
+                AlbumRecord albumRecord = new AlbumRecord(albumID, albumName, imageFile);
+                returnSongRecord = new SongRecord(songID, length, nrListens, songName, artistRecord, albumRecord, genre, songFile);
             } else {
-                int artistID = (int)objects[4];
-                String artist = (String)objects[5];
-                int albumID = (int)objects[6];
-                String albumName = (String)objects[7];
-                String genre = (String)objects[8];
-                File imageFile = convertToFile((byte[])objects[10],".jpg");
+                int artistID = (int) objects[4];
+                String artist = (String) objects[5];
+                int albumID = (int) objects[6];
+                String albumName = (String) objects[7];
+                String genre = (String) objects[8];
+                File imageFile = convertToFile((byte[]) objects[10], ".jpg");
 
-                ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
-                AlbumRecord albumRecord = new AlbumRecord(albumID,albumName,imageFile);
+                ArtistRecord artistRecord = new ArtistRecord(artistID, artist);
+                AlbumRecord albumRecord = new AlbumRecord(albumID, albumName, imageFile);
 
                 returnSongRecord.addArtistRecord(artistRecord);
                 returnSongRecord.addAlbumRecord(albumRecord);
@@ -296,28 +300,28 @@ public class DbHelper {
         ArrayList<Object[]> songsQuery = DB.select(builder.toString());
 
         for (Object[] objects : songsQuery) {
-            int songID = (int)objects[0];
-            Integer length = (Integer)objects[1];
-            Integer nrListens = (Integer)objects[2];
-            String songName = (String)objects[3];
-            int artistID = (int)objects[4];
-            String artist = (String)objects[5];
-            int albumID = (int)objects[6];
-            String albumName = (String)objects[7];
-            String genre = (String)objects[8];
+            int songID = (int) objects[0];
+            Integer length = (Integer) objects[1];
+            Integer nrListens = (Integer) objects[2];
+            String songName = (String) objects[3];
+            int artistID = (int) objects[4];
+            String artist = (String) objects[5];
+            int albumID = (int) objects[6];
+            String albumName = (String) objects[7];
+            String genre = (String) objects[8];
 
-            SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
-            if (returnArrayList.contains(tempSongRecord)){
+            SongRecord tempSongRecord = new SongRecord(songID, length, nrListens, songName);
+            if (returnArrayList.contains(tempSongRecord)) {
                 int index = returnArrayList.indexOf(tempSongRecord);
                 tempSongRecord = returnArrayList.get(index);
-                ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
-                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
+                ArtistRecord tempArtistRecord = new ArtistRecord(artistID, artist);
+                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID, albumName);
                 tempSongRecord.addArtistRecord(tempArtistRecord);
                 tempSongRecord.addAlbumRecord(tempAlbumRecord);
                 tempSongRecord.addGenre(genre);
-            } else{
-                ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
-                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
+            } else {
+                ArtistRecord tempArtistRecord = new ArtistRecord(artistID, artist);
+                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID, albumName);
                 tempSongRecord.addArtistRecord(tempArtistRecord);
                 tempSongRecord.addAlbumRecord(tempAlbumRecord);
                 tempSongRecord.addGenre(genre);
@@ -371,32 +375,32 @@ public class DbHelper {
         ArrayList<Object[]> songsQuery = DB.select(builder.toString());
         // Building the songRecords List
         for (Object[] objects : songsQuery) {
-            int playListID = (int)objects[0];
-            String playListName = (String)objects[1];
-            int songID = (int)objects[2];
-            Integer length = (Integer)objects[3];
-            Integer nrListens = (Integer)objects[4];
-            String songName = (String)objects[5];
-            int artistID = (int)objects[6];
-            String artist = (String)objects[7];
-            int albumID = (int)objects[8];
-            String albumName = (String)objects[9];
-            String genre = (String)objects[10];
+            int playListID = (int) objects[0];
+            String playListName = (String) objects[1];
+            int songID = (int) objects[2];
+            Integer length = (Integer) objects[3];
+            Integer nrListens = (Integer) objects[4];
+            String songName = (String) objects[5];
+            int artistID = (int) objects[6];
+            String artist = (String) objects[7];
+            int albumID = (int) objects[8];
+            String albumName = (String) objects[9];
+            String genre = (String) objects[10];
 
-            PlayListRecord tempPlayListRecord = new PlayListRecord(playListID,playListName);
-            if (returnArrayList.contains(tempPlayListRecord)){ // If the PlayListRecord exist already in the returnArray
+            PlayListRecord tempPlayListRecord = new PlayListRecord(playListID, playListName);
+            if (returnArrayList.contains(tempPlayListRecord)) { // If the PlayListRecord exist already in the returnArray
                 int index = returnArrayList.indexOf(tempPlayListRecord);
                 tempPlayListRecord = returnArrayList.get(index);
 
-                SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
-                if (tempPlayListRecord.getSongRecords().contains(tempSongRecord)){ // If the SongRecord exists already in the PlayListRecord
+                SongRecord tempSongRecord = new SongRecord(songID, length, nrListens, songName);
+                if (tempPlayListRecord.getSongRecords().contains(tempSongRecord)) { // If the SongRecord exists already in the PlayListRecord
 
                     //Finding the specific object
                     tempSongRecord = findSongRecord(tempPlayListRecord, tempSongRecord);
 
                     // Preparing objects
-                    ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
-                    AlbumRecord albumRecord = new AlbumRecord(albumID,albumName);
+                    ArtistRecord artistRecord = new ArtistRecord(artistID, artist);
+                    AlbumRecord albumRecord = new AlbumRecord(albumID, albumName);
 
                     // Adding values to the specific object
                     tempSongRecord.addArtistRecord(artistRecord);
@@ -405,8 +409,8 @@ public class DbHelper {
                 } else { // If the Song Record does not exist already in the PlayListRecord
 
                     // Preparing objects
-                    ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
-                    AlbumRecord albumRecord = new AlbumRecord(albumID,albumName);
+                    ArtistRecord artistRecord = new ArtistRecord(artistID, artist);
+                    AlbumRecord albumRecord = new AlbumRecord(albumID, albumName);
 
                     //adding values to new SongRecord
                     tempSongRecord.addArtistRecord(artistRecord);
@@ -417,12 +421,12 @@ public class DbHelper {
                     tempPlayListRecord.addSongRecord(tempSongRecord);
                 }
 
-            }else { // If the PlayListRecord does not exist already in the returnArray
+            } else { // If the PlayListRecord does not exist already in the returnArray
 
                 // Preparing objects
-                SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
-                ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
-                AlbumRecord albumRecord = new AlbumRecord(albumID,albumName);
+                SongRecord tempSongRecord = new SongRecord(songID, length, nrListens, songName);
+                ArtistRecord artistRecord = new ArtistRecord(artistID, artist);
+                AlbumRecord albumRecord = new AlbumRecord(albumID, albumName);
 
                 //adding values to new SongRecord
                 tempSongRecord.addArtistRecord(artistRecord);
@@ -437,17 +441,28 @@ public class DbHelper {
         return returnArrayList;
     }
 
-    public static void changePlayList(String playListName, int playListID, int[] songIDs) {
+    public static void changePlayList(int playListID, int[] songIDs) {
 
+        //Deleting bridges
+        DB.execute("DELETE FROM tblSongsPlayListsBridge WHERE fldPlayListID ="+playListID);
+
+        // We need to load up the String[][] array
+        String[][] batchArray = new String[songIDs.length][2];
+        for (int i = 0; i < batchArray.length; i++) {
+            batchArray[i][0] = Integer.toString(songIDs[i]);
+            batchArray[i][1] = Integer.toString(playListID);
+        }
+        // execute batch
+        DB.executePreparedBatch("INSERT INTO tblSongsPlayListsBridge (fldSongID, fldPlayListID) VALUES(?,?)",batchArray);
     }
 
-    private static File convertToFile(byte[] byteArray, String suffix){ //TODO We want to delete the file on system exit
+    private static File convertToFile(byte[] byteArray, String suffix) { //TODO We want to delete the file on system exit
         File returnFile = null;
         try {
-            returnFile = new File("../Resources/Temp/tempFile"+ Arrays.hashCode(byteArray) +suffix);
+            returnFile = new File("../Resources/Temp/tempFile" + Arrays.hashCode(byteArray) + suffix);
             FileOutputStream fileOutputStream = new FileOutputStream(returnFile);
             fileOutputStream.write(byteArray);
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return returnFile;
@@ -477,10 +492,10 @@ public class DbHelper {
         return returnBoolean;
     }
 
-    private static SongRecord findSongRecord(PlayListRecord playListRecord, SongRecord search){
+    private static SongRecord findSongRecord(PlayListRecord playListRecord, SongRecord search) {
         HashSet<SongRecord> songRecords = playListRecord.getSongRecords();
         for (SongRecord songRecord : songRecords) {
-            if (songRecord.equals(search)){
+            if (songRecord.equals(search)) {
                 return songRecord;
             }
         }
