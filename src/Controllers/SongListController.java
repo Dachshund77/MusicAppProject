@@ -1,5 +1,6 @@
 package Controllers;
 
+import Database.DbHelper;
 import Logic.Player.ViewController;
 import Logic.Records.AlbumRecord;
 import Logic.Records.ArtistRecord;
@@ -33,18 +34,20 @@ public class SongListController extends Controller{
     private TableView SongTableView;
 
     /**
-     * will set data inside the table view (work in progress),
-     * normally we just need to add data to the observableList "song"
+     * this initializes the tableview for the songList, and connects it to the database using {@link DbHelper}
      */
     public void initialize() {
 
-        SongRecord songRecord = new SongRecord(1,null,null,"Big Smoke");
-        songRecord.getAlbumRecords().add(new AlbumRecord(1,"State Flow"));
+        SongRecord songRecord = new SongRecord(1,null,null,null);
+        DbHelper getData = new DbHelper();
+       /* songRecord.getAlbumRecords().add(new AlbumRecord(1,"State Flow"));
         songRecord.getArtistRecords().add(new ArtistRecord(1, "Tash Sultana"));
         songRecord.getGenres().add("Alt-Rock");
+        */
+
         TableView table = new TableView();
-        ArrayList<SongRecord> songList = new ArrayList<SongRecord>();
-        songList.add(songRecord);
+        ArrayList<SongRecord> songList = new ArrayList<SongRecord>(DbHelper.findAndGetSongRecords(null,null,null,null));
+        //songList.add();
         ObservableList<SongRecord> song = FXCollections.observableArrayList(songList);
         SongTableView.setItems(song);
         TableColumn<SongRecord,String> songCol = new TableColumn<>("Song");
