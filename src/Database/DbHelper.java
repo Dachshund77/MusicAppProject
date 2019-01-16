@@ -2,10 +2,15 @@ package Database;
 
 import Logic.Records.AlbumRecord;
 import Logic.Records.ArtistRecord;
+import Logic.Records.PlayListRecord;
 import Logic.Records.SongRecord;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * HElpertuff whatever
@@ -197,35 +202,60 @@ public class DbHelper {
         return returnBoolean;
     }
 
-    public static File getSong(int SongID) {
-        return new File("test");
+    public static void incrementNrListens(int songID){
+
     }
 
-    public static Object[] findAndGetSongRecords(int fldSongID) { //TODO untested and also not clean
-        Object[] returnArray = new Object[8];
-        Object[] temp;
+    public static SongRecord getSongRecord(int fldSongID) { //TODO untested and also not clean
+        SongRecord returnSongRecord = null;
 
-        ArrayList<Object[]> songsQuery = DB.select("SELECT * FROM tblSongs WHERE fldSongID =" + fldSongID);
-        temp = songsQuery.get(0);
-        returnArray[0] = temp[0]; // fldSongId
-        returnArray[1] = temp[1]; // fldLength
-        returnArray[2] = temp[2]; // fldNrListens
-        returnArray[3] = temp[3]; // fldSongName
-        returnArray[4] = temp[4]; // fldSongFile (byte[])
+        //Building the Query
+        String query = "SELECT tblSongs.fldSongID, fldLength, fldNrListens, fldSongName, tblArtists.*, tblAlbums.fldAlbumID, tblAlbums.fldAlbumName, tblGenres.fldGenreName, fldSongFile, tblAlbums.fldAlbumPicture " +
+                "FROM tblSongs " +
+                "FULL OUTER JOIN tblSongsArtistsBridge ON tblSongs.fldSongID = tblSongsArtistsBridge.fldSongID " +
+                "FULL OUTER JOIN tblArtists ON tblSongsArtistsBridge.fldArtistID = tblArtists.fldArtistID " +
+                "FULL OUTER JOIN tblSongsAlbumsBridge ON tblSongs.fldSongID = tblSongsAlbumsBridge.fldSongID " +
+                "FULL OUTER JOIN tblAlbums ON tblSongsAlbumsBridge.fldAlbumID = tblAlbums.fldAlbumID " +
+                "FULL OUTER JOIN tblSongsGenresBridge ON tblSongs.fldSongID = tblSongsGenresBridge.fldSongID " +
+                "FULL OUTER JOIN tblGenres ON tblGenres.fldGenreName = tblSongsGenresBridge.fldGenreName " +
+                "WHERE tblSongs.fldSongID = " + fldSongID;
+        //Executing the Query
+        ArrayList<Object[]> songsQuery = DB.select(query);
+        // Retrieving Data
+        for (Object[] objects : songsQuery) {
+            if (returnSongRecord == null) {
+                int songID = (int)objects[0];
+                Integer length = (Integer)objects[1];
+                Integer nrListens = (Integer)objects[2];
+                String songName = (String)objects[3];
+                int artistID = (int)objects[4];
+                String artist = (String)objects[5];
+                int albumID = (int)objects[6];
+                String albumName = (String)objects[7];
+                String genre = (String)objects[8];
+                File songFile = convertToFile((byte[])objects[9],".mp3");
+                File imageFile = convertToFile((byte[])objects[10],".jpg");
 
-        ArrayList<Object[]> artistQuery = DB.select("SELECT fldArtistName FROM tblArtists WHERE fldArtistID = (SELECT fldArtistID FROM tblSongsArtistsBridge WHERE fldSongID = " + fldSongID + " )");
-        temp = artistQuery.get(0); //TODO i think there's an error here
-        returnArray[5] = temp[0]; // fldArtistName[]
+                ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
+                AlbumRecord albumRecord = new AlbumRecord(albumID,albumName,imageFile);
+                returnSongRecord = new SongRecord(songID, length,nrListens,songName,artistRecord,albumRecord,genre,songFile);
+            } else {
+                int artistID = (int)objects[4];
+                String artist = (String)objects[5];
+                int albumID = (int)objects[6];
+                String albumName = (String)objects[7];
+                String genre = (String)objects[8];
+                File imageFile = convertToFile((byte[])objects[10],".jpg");
 
-        ArrayList<Object[]> genreQuery = DB.select("SELECT fldGenreName FROM tblGenres WHERE fldGenreName = (SELECT fldGenreName FROM tblSongsGenresBridge WHERE fldSongID = " + fldSongID + " )");
-        temp = genreQuery.get(0);
-        returnArray[6] = temp[0]; // fldGenreName[]
+                ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
+                AlbumRecord albumRecord = new AlbumRecord(albumID,albumName,imageFile);
 
-        ArrayList<Object[]> albumQuery = DB.select("SELECT fldAlbumName FROM tblAlbums WHERE fldAlbumID = (SELECT fldAlbumID FROM tblSongsAlbumsBridge WHERE fldSongID = " + fldSongID + " )");
-        temp = albumQuery.get(0);
-        returnArray[7] = temp[0]; // fldAlbumName[]
-
-        return returnArray;
+                returnSongRecord.addArtistRecord(artistRecord);
+                returnSongRecord.addAlbumRecord(albumRecord);
+                returnSongRecord.addGenre(genre);
+            }
+        }
+        return returnSongRecord;
     }
 
     public static ArrayList<SongRecord> findAndGetSongRecords(String fldSongName, String fldArtist, String fldAlbum, String fldGenre) {
@@ -262,7 +292,6 @@ public class DbHelper {
             builder.delete(builder.length() - 4, builder.length() - 1);
         }
         //Executing Query
-        System.out.println(builder.toString());
         ArrayList<Object[]> songsQuery = DB.select(builder.toString());
 
         for (Object[] objects : songsQuery) {
@@ -296,13 +325,111 @@ public class DbHelper {
         }
         return returnArrayList;
     }
+/*
+    public static ArrayList<Object[]> findAndGetPlayListRecord(String fldPlayListName, String fldSongName, String fldArtist, String fldAlbum, String fldGenre) {
+        ArrayList<PlayListRecord> returnArrayList = new ArrayList<>();
+        //Constructing the Query
+        StringBuilder builder = new StringBuilder();
+        builder.append("SELECT tblPlayLists.fldPlayListID, fldPlayListName, tblSongs.fldSongID, fldLength, fldNrListens, fldSongName, tblArtists.*, tblAlbums.fldAlbumID, tblAlbums.fldAlbumName, tblGenres.fldGenreName " +
+                "FROM tblPlayLists " +
+                "FULL OUTER JOIN tblSongsPlayListsBridge ON tblPlayLists.fldPlayListID = tblSongsPlayListsBridge.fldPlayListID " +
+                "FULL OUTER JOIN tblSongs ON tblSongsPlayListsBridge.fldSongID = tblSongs.fldSongID " +
+                "FULL OUTER JOIN tblSongsArtistsBridge ON tblSongs.fldSongID = tblSongsArtistsBridge.fldSongID " +
+                "FULL OUTER JOIN tblArtists ON tblSongsArtistsBridge.fldArtistID = tblArtists.fldArtistID " +
+                "FULL OUTER JOIN tblSongsAlbumsBridge ON tblSongs.fldSongID = tblSongsAlbumsBridge.fldSongID " +
+                "FULL OUTER JOIN tblAlbums ON tblSongsAlbumsBridge.fldAlbumID = tblAlbums.fldAlbumID " +
+                "FULL OUTER JOIN tblSongsGenresBridge ON tblSongs.fldSongID = tblSongsGenresBridge.fldSongID " +
+                "FULL OUTER JOIN tblGenres ON tblGenres.fldGenreName = tblSongsGenresBridge.fldGenreName "
+        );
+        if (fldPlayListName != null || fldSongName != null || fldArtist != null || fldAlbum != null || fldGenre != null) {
+            builder.append("WHERE ");
+            if (fldPlayListName != null) {
+                builder.append("tbl.PlayLists.fldPlayListID LIKE '%").append(fldPlayListName).append("%'");
+                builder.append(" AND ");
+            }
+            if (fldSongName != null) {
+                builder.append("fldSongName LIKE '%").append(fldSongName).append("%'");
+                builder.append(" AND ");
+            }
+            if (fldArtist != null) {
+                builder.append("tblArtists.fldArtistName LIKE '%").append(fldArtist).append("%'");
+                builder.append(" AND ");
+            }
+            if (fldAlbum != null) {
+                builder.append("tblAlbums.fldAlbumName LIKE '%").append(fldAlbum).append("%'");
+                builder.append(" AND ");
+            }
+            if (fldGenre != null) {
+                builder.append("tblGenres.fldGenreName LIKE '%").append(fldGenre).append("%'");
+                builder.append(" AND ");
+            }
+            builder.delete(builder.length() - 4, builder.length() - 1);
+        }
+        //Executing Query
+        ArrayList<Object[]> songsQuery = DB.select(builder.toString());
 
-    public static ArrayList<Object[]> findAndGetPlayListRecord(String playListName, String songName, String artist, String album, String genre) {
-        return new ArrayList<>();
+        for (Object[] objects : songsQuery) {
+            int playListID = (int)objects[0];
+            String playListName = (String)objects[1];
+            int songID = (int)objects[2];
+            Integer length = (Integer)objects[3];
+            Integer nrListens = (Integer)objects[4];
+            String songName = (String)objects[5];
+            int artistID = (int)objects[6];
+            String artist = (String)objects[7];
+            int albumID = (int)objects[8];
+            String albumName = (String)objects[9];
+            String genre = (String)objects[10];
+
+            PlayListRecord tempPlayListRecord = new PlayListRecord(playListID,playListName);
+            if (returnArrayList.contains(tempPlayListRecord)){
+                // Getting the playList record that already contains
+                int playListIndex = returnArrayList.indexOf(tempPlayListRecord);
+                tempPlayListRecord = returnArrayList.get(playListIndex);
+                // Getting the Song record if its duplicate
+                SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
+                if (tempPlayListRecord.getSongRecords().contains(tempSongRecord)){
+                    int songIndex = tempPlayListRecord.getSongRecords().indexOf(tempSongRecord);
+                    tempSongRecord = tempPlayListRecord.getSongRecords(songIndex);
+                    ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
+                    AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
+                    tempSongRecord.addArtistRecord(tempArtistRecord);
+                    tempSongRecord.addAlbumRecord(tempAlbumRecord);
+                    tempSongRecord.addGenre(genre);
+                }
+
+
+                ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
+                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
+                tempSongRecord.addArtistRecord(tempArtistRecord);
+                tempSongRecord.addAlbumRecord(tempAlbumRecord);
+                tempSongRecord.addGenre(genre);
+            } else{
+                ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
+                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
+                tempSongRecord.addArtistRecord(tempArtistRecord);
+                tempSongRecord.addAlbumRecord(tempAlbumRecord);
+                tempSongRecord.addGenre(genre);
+                returnArrayList.add(tempSongRecord);
+            }
+        }
+        return returnArrayList;
+    }
+*/
+    public static void changePlayList(String playListName, int playListID, int[] songIDs) {
+
     }
 
-    public static void changePlayList(int playListID, int[] songIDs) {
-
+    private static File convertToFile(byte[] byteArray, String suffix){ //TODO We want to delete the file on system exit
+        File returnFile = null;
+        try {
+            returnFile = new File("../Resources/Temp/tempFile"+ Arrays.hashCode(byteArray) +suffix);
+            FileOutputStream fileOutputStream = new FileOutputStream(returnFile);
+            fileOutputStream.write(byteArray);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return returnFile;
     }
 
     private static boolean containsSongRecord(ArrayList<SongRecord> arrayList, int songID) {
@@ -310,6 +437,18 @@ public class DbHelper {
         if (arrayList != null) {
             for (SongRecord songRecord : arrayList) {
                 if (songRecord.getSongID() == songID) {
+                    returnBoolean = true;
+                }
+            }
+        }
+        return returnBoolean;
+    }
+
+    private static boolean containsPlayListRecord(ArrayList<PlayListRecord> arrayList, int playListID) {
+        boolean returnBoolean = false;
+        if (arrayList != null) {
+            for (PlayListRecord playListRecord : arrayList) {
+                if (playListRecord.getPlayListID() == playListID) {
                     returnBoolean = true;
                 }
             }
