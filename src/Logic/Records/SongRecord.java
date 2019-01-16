@@ -49,6 +49,36 @@ public class SongRecord {
         this.songFile = songFile;
     }
 
+    public String FormatAlbumName (){
+        StringBuilder str = new StringBuilder();
+
+        for (AlbumRecord albumRecord : albumRecords){
+            str.append(albumRecord.getAlbumName());
+            str.append(" ");
+        }
+
+        return str.toString();
+    }
+
+    public String FormatArtistName() {
+        StringBuilder str = new StringBuilder();
+
+        for (ArtistRecord artistRecord : artistRecords) {
+            str.append(artistRecord.getArtistName());
+            str.append(" ");
+        }
+        return str.toString();
+    }
+    public String FormatGenreName() {
+        StringBuilder str = new StringBuilder();
+
+        for(String genreName : genres){
+            str.append(genreName);
+            str.append(" ");
+        }
+        return str.toString();
+    }
+
     public void addArtistRecord(ArtistRecord artistRecord){
         this.artistRecords.add(artistRecord);
     }
