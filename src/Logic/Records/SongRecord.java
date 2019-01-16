@@ -1,4 +1,8 @@
 package Logic.Records;
+import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 
 public class SongRecord {
@@ -10,6 +14,7 @@ public class SongRecord {
     private HashSet<ArtistRecord> artistRecords;
     private HashSet<AlbumRecord> albumRecords;
     private HashSet<String> genres;
+    private File songFile;
 
     public SongRecord(int songID, Integer length, Integer nrOfListens, String songName) {
         this.songID = songID;
@@ -19,6 +24,29 @@ public class SongRecord {
         this.artistRecords = new HashSet<>();
         this.albumRecords = new HashSet<>();
         this.genres = new HashSet<>();
+        this.songFile = null;
+    }
+
+    public SongRecord(int songID, Integer length, Integer nrOfListens, String songName, ArtistRecord artistRecord, AlbumRecord albumRecord, String genre, File songFile) {
+        this.songID = songID;
+        this.length = length;
+        this.nrOfListens = nrOfListens;
+        this.songName = songName;
+        this.artistRecords = new HashSet<>();
+        this.artistRecords.add(artistRecord);
+        this.albumRecords = new HashSet<>();
+        this.albumRecords.add(albumRecord);
+        this.genres = new HashSet<>();
+        this.genres.add(genre);
+        this.songFile = songFile;
+    }
+
+    public File getSongFile() {
+        return songFile;
+    }
+
+    public void setSongFile(File songFile) {
+        this.songFile = songFile;
     }
 
     public void addArtistRecord(ArtistRecord artistRecord){

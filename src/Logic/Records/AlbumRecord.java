@@ -1,13 +1,31 @@
 package Logic.Records;
 
+import java.io.File;
+
 public class AlbumRecord {
 
     private int albumID;
     private String albumName;
+    private File albumPicture;
 
     public AlbumRecord(int albumID, String albumName) {
         this.albumID = albumID;
         this.albumName = albumName;
+        this.albumPicture = null;
+    }
+
+    public AlbumRecord(int albumID, String albumName, File albumPicture) {
+        this.albumID = albumID;
+        this.albumName = albumName;
+        this.albumPicture = albumPicture;
+    }
+
+    public File getAlbumPicture() {
+        return albumPicture;
+    }
+
+    public void setAlbumPicture(File albumPicture) {
+        this.albumPicture = albumPicture;
     }
 
     public int getAlbumID() {

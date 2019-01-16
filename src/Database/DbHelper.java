@@ -129,7 +129,7 @@ public class DbHelper {
         boolean returnBoolean = false;
         if (DB.execute("DELETE FROM tblSongs WHERE fldSongID =" + fldSongID)) {
             returnBoolean = true;
-        }
+        } //TODO update current playlist
         return returnBoolean;
     }
 
@@ -201,7 +201,7 @@ public class DbHelper {
         return new File("test");
     }
 
-    public static Object[] findAndGetSongRecord(int fldSongID) { //TODO untested and also not clean
+    public static Object[] findAndGetSongRecords(int fldSongID) { //TODO untested and also not clean
         Object[] returnArray = new Object[8];
         Object[] temp;
 
@@ -228,7 +228,7 @@ public class DbHelper {
         return returnArray;
     }
 
-    public static ArrayList<SongRecord> findAndGetSongRecord(String fldSongName, String fldArtist, String fldAlbum, String fldGenre) {
+    public static ArrayList<SongRecord> findAndGetSongRecords(String fldSongName, String fldArtist, String fldAlbum, String fldGenre) {
         ArrayList<SongRecord> returnArrayList = new ArrayList<>();
         //Constructing the Query
         StringBuilder builder = new StringBuilder();

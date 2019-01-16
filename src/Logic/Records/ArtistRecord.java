@@ -35,8 +35,6 @@ public class ArtistRecord {
                 returnBoolean = true;
             }
         }
-        System.out.println("ArtistRecord.equals");
-        System.out.println("returnBoolean = " + returnBoolean);
         return returnBoolean;
     }
 
