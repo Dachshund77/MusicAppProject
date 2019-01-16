@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * HElpertuff whatever
@@ -325,8 +326,9 @@ public class DbHelper {
         }
         return returnArrayList;
     }
-/*
-    public static ArrayList<Object[]> findAndGetPlayListRecord(String fldPlayListName, String fldSongName, String fldArtist, String fldAlbum, String fldGenre) {
+
+    public static ArrayList<PlayListRecord> findAndGetPlayListRecord(String fldPlayListName, String fldSongName, String fldArtist, String fldAlbum, String fldGenre) {
+        // This is by far the ugliest class i written in a long time, sorry.
         ArrayList<PlayListRecord> returnArrayList = new ArrayList<>();
         //Constructing the Query
         StringBuilder builder = new StringBuilder();
@@ -367,7 +369,7 @@ public class DbHelper {
         }
         //Executing Query
         ArrayList<Object[]> songsQuery = DB.select(builder.toString());
-
+        // Building the songRecords List
         for (Object[] objects : songsQuery) {
             int playListID = (int)objects[0];
             String playListName = (String)objects[1];
@@ -382,40 +384,59 @@ public class DbHelper {
             String genre = (String)objects[10];
 
             PlayListRecord tempPlayListRecord = new PlayListRecord(playListID,playListName);
-            if (returnArrayList.contains(tempPlayListRecord)){
-                // Getting the playList record that already contains
-                int playListIndex = returnArrayList.indexOf(tempPlayListRecord);
-                tempPlayListRecord = returnArrayList.get(playListIndex);
-                // Getting the Song record if its duplicate
+            if (returnArrayList.contains(tempPlayListRecord)){ // If the PlayListRecord exist already in the returnArray
+                int index = returnArrayList.indexOf(tempPlayListRecord);
+                tempPlayListRecord = returnArrayList.get(index);
+
                 SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
-                if (tempPlayListRecord.getSongRecords().contains(tempSongRecord)){
-                    int songIndex = tempPlayListRecord.getSongRecords().indexOf(tempSongRecord);
-                    tempSongRecord = tempPlayListRecord.getSongRecords(songIndex);
-                    ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
-                    AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
-                    tempSongRecord.addArtistRecord(tempArtistRecord);
-                    tempSongRecord.addAlbumRecord(tempAlbumRecord);
+                if (tempPlayListRecord.getSongRecords().contains(tempSongRecord)){ // If the SongRecord exists already in the PlayListRecord
+
+                    //Finding the specific object
+                    tempSongRecord = findSongRecord(tempPlayListRecord, tempSongRecord);
+
+                    // Preparing objects
+                    ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
+                    AlbumRecord albumRecord = new AlbumRecord(albumID,albumName);
+
+                    // Adding values to the specific object
+                    tempSongRecord.addArtistRecord(artistRecord);
+                    tempSongRecord.addAlbumRecord(albumRecord);
                     tempSongRecord.addGenre(genre);
+                } else { // If the Song Record does not exist already in the PlayListRecord
+
+                    // Preparing objects
+                    ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
+                    AlbumRecord albumRecord = new AlbumRecord(albumID,albumName);
+
+                    //adding values to new SongRecord
+                    tempSongRecord.addArtistRecord(artistRecord);
+                    tempSongRecord.addAlbumRecord(albumRecord);
+                    tempSongRecord.addGenre(genre);
+
+                    // Adding this songRecord
+                    tempPlayListRecord.addSongRecord(tempSongRecord);
                 }
 
+            }else { // If the PlayListRecord does not exist already in the returnArray
 
-                ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
-                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
-                tempSongRecord.addArtistRecord(tempArtistRecord);
-                tempSongRecord.addAlbumRecord(tempAlbumRecord);
+                // Preparing objects
+                SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
+                ArtistRecord artistRecord = new ArtistRecord(artistID,artist);
+                AlbumRecord albumRecord = new AlbumRecord(albumID,albumName);
+
+                //adding values to new SongRecord
+                tempSongRecord.addArtistRecord(artistRecord);
+                tempSongRecord.addAlbumRecord(albumRecord);
                 tempSongRecord.addGenre(genre);
-            } else{
-                ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
-                AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
-                tempSongRecord.addArtistRecord(tempArtistRecord);
-                tempSongRecord.addAlbumRecord(tempAlbumRecord);
-                tempSongRecord.addGenre(genre);
-                returnArrayList.add(tempSongRecord);
+
+                // add this to the PlayListRecord and to the arrayList
+                tempPlayListRecord.addSongRecord(tempSongRecord);
+                returnArrayList.add(tempPlayListRecord);
             }
         }
         return returnArrayList;
     }
-*/
+
     public static void changePlayList(String playListName, int playListID, int[] songIDs) {
 
     }
@@ -454,5 +475,15 @@ public class DbHelper {
             }
         }
         return returnBoolean;
+    }
+
+    private static SongRecord findSongRecord(PlayListRecord playListRecord, SongRecord search){
+        HashSet<SongRecord> songRecords = playListRecord.getSongRecords();
+        for (SongRecord songRecord : songRecords) {
+            if (songRecord.equals(search)){
+                return songRecord;
+            }
+        }
+        return null;
     }
 }
