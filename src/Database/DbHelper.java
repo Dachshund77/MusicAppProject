@@ -204,11 +204,21 @@ public class DbHelper {
     }
 
     public static void incrementNrListens(int songID) {
+        // get current nrOfListens
+        ArrayList<Object[]> tempObjectArrayList = DB.select("SELECT fldNrListens FROM tblSongs WHERE fldSongID ="+songID);
 
+        // unpack returns values
+        Object[] objectArray = tempObjectArrayList.get(0);
+
+        int oldValue = (Integer)objectArray[0];
+        int newValue = oldValue + 1;
+
+        // write new
+        DB.execute("UPDATE tblSongs SET fldNrListens = "+newValue+" WHERE fldSongID= "+songID);
     }
 
-    public static int[] getSongIDs(int playListID){
-        return new int[2];
+    public static ArrayList<Integer> getSongIDs(int playListID){
+        return new ArrayList<Integer>();
     }
 
     public static SongRecord getSongRecord(int fldSongID) { //TODO untested and also not clean
@@ -466,30 +476,6 @@ public class DbHelper {
             e.printStackTrace();
         }
         return returnFile;
-    }
-
-    private static boolean containsSongRecord(ArrayList<SongRecord> arrayList, int songID) {
-        boolean returnBoolean = false;
-        if (arrayList != null) {
-            for (SongRecord songRecord : arrayList) {
-                if (songRecord.getSongID() == songID) {
-                    returnBoolean = true;
-                }
-            }
-        }
-        return returnBoolean;
-    }
-
-    private static boolean containsPlayListRecord(ArrayList<PlayListRecord> arrayList, int playListID) {
-        boolean returnBoolean = false;
-        if (arrayList != null) {
-            for (PlayListRecord playListRecord : arrayList) {
-                if (playListRecord.getPlayListID() == playListID) {
-                    returnBoolean = true;
-                }
-            }
-        }
-        return returnBoolean;
     }
 
     private static SongRecord findSongRecord(PlayListRecord playListRecord, SongRecord search) {
