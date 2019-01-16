@@ -1,6 +1,7 @@
 package Controllers;
 
 import Logic.Player.MusicPlayer;
+import Logic.Player.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -88,10 +89,7 @@ public class MusicPlayerController extends Controller{
      */
     @FXML
     public void navigateHome(ActionEvent event) {
-        //ViewController.MAIN.load();
-        File file = new File("C:/Users/Sven/IdeaProjects/MusicAppProject/src/Resources/sample.mp3"); //TODO remove before push to master
-        MusicPlayer.loadSong(file); //TODO remove also that
-
+        ViewController.MAIN.load();
     }
 
     /**

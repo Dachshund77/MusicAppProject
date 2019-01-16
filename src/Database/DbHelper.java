@@ -1,5 +1,6 @@
 package Database;
 
+import Logic.Player.MusicPlayer;
 import Logic.Records.AlbumRecord;
 import Logic.Records.ArtistRecord;
 import Logic.Records.PlayListRecord;
@@ -135,7 +136,8 @@ public class DbHelper {
         boolean returnBoolean = false;
         if (DB.execute("DELETE FROM tblSongs WHERE fldSongID =" + fldSongID)) {
             returnBoolean = true;
-        } //TODO update current playlist
+        }
+        MusicPlayer.removeFromPlayList(fldSongID);
         return returnBoolean;
     }
 

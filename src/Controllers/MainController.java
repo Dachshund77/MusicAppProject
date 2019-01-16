@@ -1,9 +1,11 @@
 package Controllers;
 
+import Logic.Player.MusicPlayer;
 import Logic.Player.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -16,6 +18,14 @@ public class MainController extends Controller{
     private Label songInfoLabel;
     @FXML
     private ImageView albumImage;
+
+    /**
+     * We need to set the MainController for the {@link MusicPlayer}, since its the Musicplayer that controls those Labels.
+     */
+    public void initialize(){
+        MusicPlayer.setMainController(this);
+        albumImage.setImage(MusicPlayer.getAlbumImage());
+    }
 
     /**
      * Will change the scene to the {@link PlayListController}.
@@ -33,5 +43,13 @@ public class MainController extends Controller{
     @FXML
     public void navigateToSongs(ActionEvent event) {
         ViewController.SONGLIST.load();
+    }
+
+    public Label getSongInfoLabel() {
+        return songInfoLabel;
+    }
+
+    public void setAlbumImage(Image image) {
+        albumImage.setImage(image);
     }
 }
