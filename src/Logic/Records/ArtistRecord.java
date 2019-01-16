@@ -29,10 +29,19 @@ public class ArtistRecord {
     @Override
     public boolean equals(Object obj) {
         boolean returnBoolean = false;
-        ArtistRecord other = (ArtistRecord) obj;
-        if (this.artistID == other.artistID){
-            returnBoolean = true;
+        if (obj instanceof ArtistRecord){
+            ArtistRecord other = (ArtistRecord) obj;
+            if (this.artistID == other.artistID) {
+                returnBoolean = true;
+            }
         }
+        System.out.println("ArtistRecord.equals");
+        System.out.println("returnBoolean = " + returnBoolean);
         return returnBoolean;
+    }
+
+    @Override
+    public int hashCode() {
+        return artistID;
     }
 }

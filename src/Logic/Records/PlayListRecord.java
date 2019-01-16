@@ -45,10 +45,17 @@ public class PlayListRecord {
     @Override
     public boolean equals(Object obj) {
         boolean returnBoolean = false;
-        PlayListRecord other = (PlayListRecord) obj;
-        if (this.playListID == other.playListID){
-            returnBoolean = true;
+        if (obj instanceof PlayListRecord) {
+            PlayListRecord other = (PlayListRecord) obj;
+            if (this.playListID == other.playListID) {
+                returnBoolean = true;
+            }
         }
         return returnBoolean;
+    }
+
+    @Override
+    public int hashCode() {
+        return playListID;
     }
 }

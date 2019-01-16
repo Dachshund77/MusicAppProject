@@ -92,10 +92,17 @@ public class SongRecord {
     @Override
     public boolean equals(Object obj) {
         boolean returnBoolean = false;
-        SongRecord other = (SongRecord) obj;
-        if (this.songID == other.songID){
-            returnBoolean = true;
+        if (obj instanceof SongRecord) {
+            SongRecord other = (SongRecord) obj;
+            if (this.songID == other.songID) {
+                returnBoolean = true;
+            }
         }
         return returnBoolean;
+    }
+
+    @Override
+    public int hashCode() {
+        return songID;
     }
 }

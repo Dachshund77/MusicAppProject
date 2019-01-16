@@ -276,21 +276,22 @@ public class DbHelper {
             String albumName = (String)objects[7];
             String genre = (String)objects[8];
 
-            int index = returnArrayList.indexOf(songID);
-            if (index != -1){
-                SongRecord tempSongRecord = returnArrayList.get(index);
+            SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
+            if (returnArrayList.contains(tempSongRecord)){
+                int index = returnArrayList.indexOf(tempSongRecord);
+                tempSongRecord = returnArrayList.get(index);
                 ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
                 AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
                 tempSongRecord.addArtistRecord(tempArtistRecord);
                 tempSongRecord.addAlbumRecord(tempAlbumRecord);
                 tempSongRecord.addGenre(genre);
             } else{
-                SongRecord tempSongRecord = new SongRecord(songID,length,nrListens,songName);
                 ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artist);
                 AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
                 tempSongRecord.addArtistRecord(tempArtistRecord);
                 tempSongRecord.addAlbumRecord(tempAlbumRecord);
                 tempSongRecord.addGenre(genre);
+                returnArrayList.add(tempSongRecord);
             }
         }
         return returnArrayList;

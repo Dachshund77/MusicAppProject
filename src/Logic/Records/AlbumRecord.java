@@ -29,10 +29,17 @@ public class AlbumRecord {
     @Override
     public boolean equals(Object obj) {
         boolean returnBoolean = false;
-        AlbumRecord other = (AlbumRecord) obj;
-        if (this.albumID == other.albumID){
-            returnBoolean = true;
+        if (obj instanceof AlbumRecord) {
+            AlbumRecord other = (AlbumRecord) obj;
+            if (this.albumID == other.albumID) {
+                returnBoolean = true;
+            }
         }
         return returnBoolean;
+    }
+
+    @Override
+    public int hashCode() {
+        return albumID;
     }
 }

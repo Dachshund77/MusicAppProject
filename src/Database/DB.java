@@ -133,7 +133,7 @@ public class DB {
 
     private static void connect(){
         try {
-            conn = DriverManager.getConnection("jdbc:sqlserver://localhost:" + port, userName, password);
+            conn = DriverManager.getConnection("jdbc:sqlserver://localhost:"+port+";databaseName="+databaseName, userName, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
