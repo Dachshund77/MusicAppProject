@@ -22,10 +22,13 @@ public class MainController extends Controller{
     /**
      * We need to set the MainController for the {@link MusicPlayer}, since its the Musicplayer that controls those Labels.
      */
+    //TODO Needs fixing
+    /*
     public void initialize(){
         MusicPlayer.setMainController(this);
         albumImage.setImage(MusicPlayer.getAlbumImage());
     }
+    */
 
     /**
      * Will change the scene to the {@link PlayListController}.

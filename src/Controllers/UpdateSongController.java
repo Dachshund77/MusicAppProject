@@ -3,6 +3,7 @@ package Controllers;
 import Logic.Player.ViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TextField;
 
@@ -13,6 +14,14 @@ import javafx.scene.control.TextField;
 public class UpdateSongController extends Controller{
 
     @FXML
+    private Button addSongButton;
+    @FXML
+    private Button addArtistButton;
+    @FXML
+    private Button addAlbumButton;
+    @FXML
+    private Button addGenreButton;
+    @FXML
     private TextField songNameTextField;
     @FXML
     private MenuButton artistMenuButton;
@@ -20,6 +29,22 @@ public class UpdateSongController extends Controller{
     private MenuButton albumMenuButton;
     @FXML
     private MenuButton genreMenuButton;
+
+    public void initialize(){
+
+    }
+
+    private void populateArtistMenuButton(){
+
+    }
+
+    private void populateAlbumMenuButton(){
+
+    }
+
+    private void populateGenreMenuButton(){
+
+    }
 
     @FXML
     public void handleAddNewArtist(ActionEvent event) {
@@ -41,12 +66,36 @@ public class UpdateSongController extends Controller{
     }
 
     @FXML
-    public void handleAddSongFile(ActionEvent event) {
-
+    public void navigateBack(ActionEvent event) {
+        ViewController.SONGLIST.load();
     }
 
     @FXML
-    public void navigateBack(ActionEvent event) {
-        ViewController.SONGLIST.load();
+    public void handleNewArtist(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleNewAlbum(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleNewGenre(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleAddAlbumToSong(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleAddArtistToSong(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleAddGenreToSong(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleAddSongFile(ActionEvent event) {
+
     }
 }
