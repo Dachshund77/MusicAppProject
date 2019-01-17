@@ -463,6 +463,46 @@ public class DbHelper {
         return returnArrayList;
     }
 
+    public static ArrayList<ArtistRecord> getAllArtistRecords(){
+        ArrayList<ArtistRecord> returnArrayList = new ArrayList<>();
+        //Getting from DB
+        ArrayList<Object[]> tempObjectArrayList = DB.select("SELECT * FROM tblArtists");
+        //Formatting output
+        for (Object[] objects : tempObjectArrayList) {
+            int artistID = (int)objects[0];
+            String artistName = (String)objects[1];
+            ArtistRecord tempArtistRecord = new ArtistRecord(artistID,artistName);
+            returnArrayList.add(tempArtistRecord);
+        }
+        return returnArrayList;
+    }
+
+    public static ArrayList<AlbumRecord> getAllAlbumRecords(){
+        ArrayList<AlbumRecord> returnArrayList = new ArrayList<>();
+        //Getting from DB
+        ArrayList<Object[]> tempObjectArrayList = DB.select("SELECT fldAlbumID, fldAlbumName FROM tblAlbums");
+        //Formatting output
+        for (Object[] objects : tempObjectArrayList) {
+            int albumID = (int)objects[0];
+            String albumName = (String)objects[1];
+            AlbumRecord tempAlbumRecord = new AlbumRecord(albumID,albumName);
+            returnArrayList.add(tempAlbumRecord);
+        }
+        return returnArrayList;
+    }
+
+    public static ArrayList<String> getAllGenres(){
+        ArrayList<String> returnArrayList = new ArrayList<>();
+        //Getting from DB
+        ArrayList<Object[]> tempObjectArrayList = DB.select("SELECT * FROM tblGenres");
+        //Formatting output
+        for (Object[] objects : tempObjectArrayList) {
+            String albumName = (String)objects[0];
+            returnArrayList.add(albumName);
+        }
+        return returnArrayList;
+    }
+
     public static void changePlayList(int playListID, int[] songIDs) {
 
         //Deleting bridges
