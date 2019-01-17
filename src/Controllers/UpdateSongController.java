@@ -1,11 +1,19 @@
 package Controllers;
 
+import Database.DbHelper;
 import Logic.Player.ViewController;
+import Logic.Records.AlbumRecord;
+import Logic.Records.ArtistRecord;
+import Logic.Records.SongRecord;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+
+import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * In this Scene the user will have the possibility to edit or add a Song.
@@ -14,52 +22,98 @@ import javafx.scene.control.TextField;
 public class UpdateSongController extends Controller{
 
     @FXML
+    private ChoiceBox<AlbumRecord> albumChoiceBox;
+    @FXML
+    private ChoiceBox<String> genreChoiceBox;
+    @FXML
+    private ChoiceBox<ArtistRecord> artistChoiceBox;
+    @FXML
+    private Button completeButton;
+    @FXML
+    private Button removeArtistButton;
+    @FXML
+    private Button removeAlbumButton;
+    @FXML
+    private Button removeGenreButton;
+    @FXML
     private Button addSongButton;
     @FXML
-    private Button addArtistButton;
-    @FXML
-    private Button addAlbumButton;
-    @FXML
-    private Button addGenreButton;
-    @FXML
     private TextField songNameTextField;
-    @FXML
-    private MenuButton artistMenuButton;
-    @FXML
-    private MenuButton albumMenuButton;
-    @FXML
-    private MenuButton genreMenuButton;
+
+    private static SongRecord songRecord;
+
+
 
     public void initialize(){
+        //For testing purposes
+        ArrayList<SongRecord> songRecords = DbHelper.findAndGetSongRecords("ASong",null,null,null);
+        songRecord = songRecords.get(0);
+        populateArtistChoiceBox();
 
     }
+    // Artist  stuff
 
-    private void populateArtistMenuButton(){
-
+    private void populateArtistChoiceBox(){
+        HashSet<ArtistRecord> artistRecords = songRecord.getArtistRecords();
+        ObservableList<ArtistRecord> artistRecordObservableList = FXCollections.observableArrayList(artistRecords);
+        artistChoiceBox.getItems().setAll(artistRecordObservableList);
     }
 
-    private void populateAlbumMenuButton(){
-
-    }
-
-    private void populateGenreMenuButton(){
+    @FXML
+    public void handleEditArtist(ActionEvent event) {
+        ArtistRecord testRecord = artistChoiceBox.getValue();
+        songRecord.getArtistRecords().remove(testRecord);
+        populateArtistChoiceBox();
 
     }
 
     @FXML
-    public void handleAddNewArtist(ActionEvent event) {
-        ViewController.UPDATE_ARTIST.load();
+    public void handleRemoveArtistFromSong(ActionEvent event) {
+    }
+
+
+    //Album Stuff
+
+    private void populateAlbumChoiceBox(){
+        HashSet<AlbumRecord> albumRecords = songRecord.getAlbumRecords();
+        ObservableList<AlbumRecord> albumRecordObservableList = FXCollections.observableArrayList(albumRecords);
+        albumChoiceBox.getItems().setAll(albumRecordObservableList);
     }
 
     @FXML
-    public void handleAddNewAlbum(ActionEvent event) {
-        ViewController.UPDATE_ALBUM.load();
+    public void handleEditAlbum(ActionEvent event) {
     }
 
     @FXML
-    public void handleAddNewGenre(ActionEvent event) {
-        ViewController.UPDATE_GENRE.load();
+    public void handleRemoveAlbumFromSong(ActionEvent event) {
     }
+
+    // Genre Stuff
+
+
+    private void populateGenreChoiceBox(){
+        HashSet<String> genres = songRecord.getGenres();
+        ObservableList<String> genresObservableList = FXCollections.observableArrayList(genres);
+        genreChoiceBox.getItems().setAll(genresObservableList);
+    }
+
+    @FXML
+    public void handleEditGenre(ActionEvent event) {
+    }
+
+    @FXML
+    public void handleRemoveGenreFromSong(ActionEvent event) {
+    }
+
+
+    //SongFile
+
+    @FXML
+    public void handleAddSongFile(ActionEvent event) {
+
+    }
+
+    //Navigation
 
     @FXML
     public void handleInputCompletion(ActionEvent event) {
@@ -70,32 +124,7 @@ public class UpdateSongController extends Controller{
         ViewController.SONGLIST.load();
     }
 
-    @FXML
-    public void handleNewArtist(ActionEvent event) {
-    }
-
-    @FXML
-    public void handleNewAlbum(ActionEvent event) {
-    }
-
-    @FXML
-    public void handleNewGenre(ActionEvent event) {
-    }
-
-    @FXML
-    public void handleAddAlbumToSong(ActionEvent event) {
-    }
-
-    @FXML
-    public void handleAddArtistToSong(ActionEvent event) {
-    }
-
-    @FXML
-    public void handleAddGenreToSong(ActionEvent event) {
-    }
-
-    @FXML
-    public void handleAddSongFile(ActionEvent event) {
-
+    public void test(ActionEvent event) {
+        System.out.println("Test");
     }
 }

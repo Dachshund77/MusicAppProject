@@ -42,4 +42,9 @@ public class ArtistRecord {
     public int hashCode() {
         return artistID;
     }
+
+    @Override
+    public String toString() {
+        return artistName;
+    }
 }

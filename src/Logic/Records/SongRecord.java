@@ -45,8 +45,6 @@ public class SongRecord {
         this.songFile = songFile;
     }
 
-
-
     public String FormatAlbumName (){
         StringBuilder str = new StringBuilder();
 
@@ -57,6 +55,7 @@ public class SongRecord {
 
         return str.toString();
     }
+
     public String FormatArtistName() {
         StringBuilder str = new StringBuilder();
 
@@ -66,6 +65,7 @@ public class SongRecord {
         }
         return str.toString();
     }
+
     public String FormatGenreName() {
         StringBuilder str = new StringBuilder();
 

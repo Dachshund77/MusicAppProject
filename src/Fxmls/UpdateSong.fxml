@@ -44,17 +44,17 @@
             <Label text="Genre" GridPane.rowIndex="3" />
             <TextField fx:id="songNameTextField" GridPane.columnIndex="1" />
             <Label text="Song file" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" onAction="#handleNewArtist" text="New" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-            <Button mnemonicParsing="false" onAction="#handleNewAlbum" text="New" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-            <Button mnemonicParsing="false" onAction="#handleNewGenre" text="New" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <Button mnemonicParsing="false" onAction="#handleEditArtist" text="Edit" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#handleEditAlbum" text="Edit" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#handleEditGenre" text="Edit" GridPane.columnIndex="2" GridPane.rowIndex="3" />
             <Button fx:id="addSongButton" mnemonicParsing="false" onAction="#handleAddSongFile" text="Add" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-            <Button mnemonicParsing="false" onAction="#handleInputCompletion" text="Complete" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-            <MenuButton fx:id="artistMenuButton" mnemonicParsing="false" text="Choose" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <MenuButton fx:id="albumMenuButton" mnemonicParsing="false" text="Choose" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <MenuButton fx:id="genreMenuButton" mnemonicParsing="false" text="Choose" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            <Button fx:id="addArtistButton" mnemonicParsing="false" onAction="#handleAddArtistToSong" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-            <Button fx:id="addAlbumButton" mnemonicParsing="false" onAction="#handleAddAlbumToSong" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-            <Button fx:id="addGenreButton" mnemonicParsing="false" onAction="#handleAddGenreToSong" text="Add" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+            <Button fx:id="completeButton" mnemonicParsing="false" onAction="#handleInputCompletion" text="Complete" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button fx:id="removeArtistButton" mnemonicParsing="false" onAction="#handleRemoveArtistFromSong" text="Remove" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+            <Button fx:id="removeAlbumButton" mnemonicParsing="false" onAction="#handleRemoveAlbumFromSong" text="Remove" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+            <Button fx:id="removeGenreButton" mnemonicParsing="false" onAction="#handleRemoveGenreFromSong" text="Remove" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+            <ChoiceBox fx:id="artistChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <ChoiceBox fx:id="albumChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+            <ChoiceBox fx:id="genreChoiceBox" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
          </children>
       </GridPane>
    </center>
