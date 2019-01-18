@@ -1,207 +1,160 @@
 package Database;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+//Step 1 import libs
+import java.io.*;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.Properties;
 
-/**
- *
- * @author tha
- */
 public class DB {
-    private static Connection con;
-    private static PreparedStatement ps;
-    private static ResultSet rs;
+
     private static String port;
     private static String databaseName;
     private static String userName;
     private static String password;
 
-    public static final String NOMOREDATA ="|ND|";
-    private static int numberOfColumns;
-    private static int currentColumnNumber=1;
+    private static Connection conn;
+    private static PreparedStatement ps;
+    private static ResultSet rs;
 
-    /**
-     * STATES
+    /*
+      Static initializer
+      This will be called whenever we use the DB class to setup the class fields.
      */
-    private static boolean moreData=false;  // from Resultset
-    private static boolean pendingData=false; // from select statement
-    private static boolean terminated = false;
-
     private DB(){
+
     }
-    /**
-     * Static initializer - no object construction
-     */
     static {
         Properties props = new Properties();
-        String fileName = "db.properties";
+        String fileName = "src/Database/db.properties";
         InputStream input;
-        try{
+        try {
             input = new FileInputStream(fileName);
             props.load(input);
-            port = props.getProperty("port","1433");
+            port = props.getProperty("port", "1433");
             databaseName = props.getProperty("databaseName");
-            userName=props.getProperty("userName", "sa");
-            password=props.getProperty("password");
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            System.out.println("Database Ready");
-
-        }catch(IOException | ClassNotFoundException e){
+            userName = props.getProperty("userName", "sa");
+            password = props.getProperty("password");
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver"); //Step 2
+        } catch (IOException | ClassNotFoundException e) {
             System.err.println(e.getMessage());
         }
     }
+
+    public static boolean execute(String statement){
+        conn = null;
+        ps = null;
+        try {
+            //Step 3 open connection
+            connect();
+            //Step 4 Execute query
+            ps = conn.prepareStatement(statement);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            cleanUp();
+        }
+        return true;
+    }
+
+    public static ArrayList<Object[]> select(String statement) {
+        conn = null;
+        ps = null;
+        ArrayList<Object[]> returnArrayList = new ArrayList<>();
+        try {
+            //Step 3 open connection
+            connect();
+            //Step 4 Execute query
+            ps = conn.prepareStatement(statement);
+            rs = ps.executeQuery();
+            Integer noOfColumns = rs.getMetaData().getColumnCount();
+            //Structuring return data
+            while (rs.next()){
+                Object[] tempArray = new Object[noOfColumns];
+                for (int i = 0; i < tempArray.length; i++) {
+                    tempArray[i] = rs.getObject(i+1);
+                }
+                returnArrayList.add(tempArray);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            cleanUp();
+        }
+        return returnArrayList;
+    }
+
+    public static boolean executeWithFile(String statement, File file){
+        conn = null;
+        ps = null;
+        try {
+            //Step 3 open connection
+            connect();
+            //Step 4 Execute query
+            ps = conn.prepareStatement(statement);
+            ps.setBinaryStream(1, new FileInputStream(file),(int)file.length());
+            ps.executeUpdate();
+        } catch (SQLException | FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            cleanUp();
+        }
+        return true;
+    }
+
+    public static boolean executePreparedBatch(String statement, String[][] statements){ //TODO i have no idea if this will work
+        conn = null;
+        ps = null;
+        try {
+            //Step 3 open connection
+            connect();
+            //Step 4 Execute query
+            conn.setAutoCommit(false);
+            ps = conn.prepareStatement(statement);
+            for (String[] s : statements) {
+                for (int i = 0; i < s.length; i++) {
+                    System.out.println("setter "+(i+1)+" and "+s[i]);
+                    ps.setString(i+1, s[i]);
+                }
+                ps.addBatch();
+            }
+            ps.executeBatch();
+            conn.commit();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }finally {
+            cleanUp();
+        }
+        return true;
+    }
+
+
+
+
     private static void connect(){
         try {
-            con = DriverManager.getConnection("jdbc:sqlserver://localhost:"+port+";databaseName="+databaseName,userName,password);
+            conn = DriverManager.getConnection("jdbc:sqlserver://localhost:"+port+";databaseName="+databaseName, userName, password);
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-
-    }
-    private static void disconnect(){
-        try {
-            con.close();
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
-    /**
-     *
-     * @param sql the sql string to be executed in SQLServer
-     */
-    public static void selectSQL(String sql){
-        if (terminated){
-            System.exit(0);
-        }
+    private static void cleanUp(){
         try{
-            if (ps!=null){
+            if (ps != null){
                 ps.close();
             }
-            if (rs!=null){
+            if(conn != null){
+                conn.close();
+            }
+            if (rs != null){
                 rs.close();
             }
-            connect();
-            ps = con.prepareStatement(sql);
-            rs = ps.executeQuery();
-            pendingData=true;
-            moreData = rs.next();
-            ResultSetMetaData rsmd = rs.getMetaData();
-            numberOfColumns = rsmd.getColumnCount();
-        }catch (Exception e){
-            System.err.println("Error in the sql parameter, please test this in SQLServer first");
-            System.err.println(e.getMessage());
-        }
-    }
-    /**
-     *
-     * @return The next single value (formatted) from previous select
-     */
-    public static String getDisplayData(){
-        if (terminated){
-            System.exit(0);
-        }
-        if (!pendingData){
-            terminated=true;
-            throw new RuntimeException("ERROR! No previous select, communication with the database is lost!");
-        }else if (!moreData){
-            disconnect();
-            pendingData=false;
-            return NOMOREDATA;
-        }else {
-            return getNextValue(true);
-        }
-    }
-
-    public static int getNumberOfColumns(){
-        return numberOfColumns;
-    }
-    /**
-     *
-     * @return The next single value (without formatting) from previous select
-     */
-    public static String getData(){
-        if (terminated){
-            System.exit(0);
-        }
-        if (!pendingData){
-            terminated=true;
-            throw new RuntimeException("ERROR! No previous select, communication with the database is lost!");
-        }else if (!moreData){
-            disconnect();
-            pendingData=false;
-            return NOMOREDATA;
-        }else {
-            return getNextValue(false).trim();
-        }
-    }
-
-    private static String getNextValue(boolean view){
-        StringBuilder value= new StringBuilder();
-        try{
-            value.append(rs.getString(currentColumnNumber));
-            if (currentColumnNumber>=numberOfColumns){
-                currentColumnNumber=1;
-                if (view){
-                    value.append("\n");
-                }
-                moreData = rs.next();
-            }else{
-                if (view){
-                    value.append(" ");
-                }
-                currentColumnNumber++;
-            }
         }catch (SQLException e){
-            System.err.println(e.getMessage());
+            e.printStackTrace();
         }
-        return value.toString();
-    }
-
-    public static boolean insertSQL(String sql){
-        return executeUpdate(sql);
-    }
-
-    public static boolean updateSQL(String sql){
-        return executeUpdate(sql);
-    }
-
-    public static boolean deleteSQL(String sql){
-        return executeUpdate(sql);
-    }
-
-    private static boolean executeUpdate(String sql){
-        if (terminated){
-            System.exit(0);
-        }
-        if (pendingData){
-            terminated=true;
-            throw new RuntimeException("ERROR! There were pending data from previous select, communication with the database is lost! ");
-        }
-        try{
-            if (ps!=null){
-                ps.close();
-            }
-            connect();
-            ps = con.prepareStatement(sql);
-            int rows = ps.executeUpdate();
-            ps.close();
-            if (rows>0){
-                return true;
-            }
-        }catch (RuntimeException | SQLException e){
-            System.err.println(e.getMessage());
-        } finally{
-            disconnect();
-        }
-        return false;
     }
 }

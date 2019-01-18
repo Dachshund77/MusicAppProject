@@ -1,0 +1,64 @@
+Create Database dbMusicPlayer;
+
+GO
+use dbMusicPlayer;
+
+create table tblSongs(
+	fldSongID int IDENTITY(1,1) NOT NULL,
+	fldLength int,
+	fldNrListens int,
+	fldSongName nchar(50),
+	fldSongFile varbinary(MAX) NOT NULL,
+	primary key (fldSongID)
+	);
+
+create table tblArtists(
+	fldArtistID int IDENTITY(1,1) NOT NULL,
+	fldArtistName nchar(50)
+	primary key (fldArtistID)
+	);
+
+create table tblSongsArtistsBridge(
+	fldSongID int,
+	fldArtistID int,
+	foreign key (fldSongID) references tblSongs(fldSongID) ON DELETE CASCADE,
+	foreign key (fldArtistID) references tblArtists(fldArtistID) ON DELETE CASCADE
+	);
+
+create table tblGenres(
+	fldGenreName nchar(50) NOT NULL,
+	primary key (fldGenreName));
+
+create table tblSongsGenresBridge(
+	fldSongID int,
+	fldGenreName nchar(50),
+	foreign key (fldSongID) references tblSongs(fldSongID) ON DELETE CASCADE,
+	foreign key (fldGenreName) references tblGenres(fldGenreName) ON DELETE CASCADE ON UPDATE CASCADE
+	);
+
+create table tblAlbums(
+	fldAlbumID int IDENTITY(1,1) NOT NULL,
+	fldAlbumName nchar(50),
+	fldAlbumPicture varbinary(MAX),
+	primary key (fldAlbumID)
+	);
+
+create table tblSongsAlbumsBridge(
+	fldSongID int,
+	fldAlbumID int ,
+	foreign key (fldSongID) references tblSongs(fldSongID) ON DELETE CASCADE,
+	foreign key (fldAlbumID) references tblAlbums(fldAlbumID) ON DELETE CASCADE,
+	);
+
+create table tblPlayLists(
+	fldPlayListID int IDENTITY(1,1) NOT NULL,
+	fldPlayListName nchar(50),
+	primary key (fldPlayListID)
+	);
+
+create table tblSongsPlayListsBridge(
+    fldSongID int,
+	fldPlayListID int,
+	foreign key (fldSongID) references tblSongs(fldSongID) ON DELETE CASCADE,
+	foreign key (fldPlayListID) references tblPlayLists(fldPlayListID) ON DELETE CASCADE
+	);

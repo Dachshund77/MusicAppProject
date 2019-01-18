@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.MusicPlayerController">
+   <children>
+      <Slider fx:id="songTimeSlider" onMousePressed="#handleStartPlaybackAdjust" onMouseReleased="#handleEndPlaybackTimeAdjust" />
+      <Label fx:id="songTimeLabel" text="00:00" />
+      <GridPane alignment="CENTER">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="5">
+               <children>
+                  <Button fx:id="nextSongButton" mnemonicParsing="false" onAction="#handleNextSong" text="Next " />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="4">
+               <children>
+                  <Button fx:id="playPauseButton" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handlePlayPause" text="Play" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="6">
+               <children>
+                  <Slider fx:id="volumeSlider" onMouseClicked="#handleVolumeAdjust" onMouseDragged="#handleVolumeAdjust" />
+                  <Label text="Volume" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="3">
+               <children>
+                  <Button fx:id="stopSongButton" mnemonicParsing="false" onAction="#handleStop" text="Stop" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="2">
+               <children>
+                  <Button fx:id="previousSongButton" mnemonicParsing="false" onAction="#handlePreviousSong" text="Previous" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="7">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#navigateHome" text="Home" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1" />
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Button fx:id="modeButton" mnemonicParsing="false" onAction="#handleModeChange" text="None" />
+               </children>
+            </VBox>
+         </children>
+      </GridPane>
+   </children>
+</VBox>
